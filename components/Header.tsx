@@ -1,26 +1,27 @@
 import Link from "next/link";
+import type { Idioma } from "@/lib/idioma";
+import { textos } from "@/lib/textos";
+import NavLinks from "./NavLinks";
+import TrocarIdioma from "./TrocarIdioma";
+import TrocarTema from "./TrocarTema";
 
-const links = [
-  { href: "/projetos", label: "Projetos" },
-  { href: "/artigos", label: "Artigos" },
-  { href: "/sobre", label: "Sobre" },
-  { href: "/uses", label: "Uses" },
-  { href: "/contato", label: "Contato" },
-];
+export const paginas = ["sobre", "conhecimento", "experiencias", "projetos", "certificados", "artigos", "contato"] as const;
 
-export default function Header() {
+export default function Header({ lang }: { lang: Idioma }) {
+  const t = textos[lang];
+
   return (
-    <header className="border-b border-foreground/10">
-      <nav className="mx-auto flex max-w-3xl flex-wrap items-center gap-x-6 gap-y-2 px-4 py-4">
-        <Link href="/" className="mr-auto font-semibold">
-          João Victor
+    <header className="sticky top-0 z-40 border-b border-dashed border-borda bg-fundo/80 backdrop-blur-md">
+      <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-6 gap-y-3 px-5 py-4 sm:px-8">
+        <Link href={`/${lang}`} className="mr-auto font-pixel text-xl degrade-texto">
+          {t.nav.inicio}
         </Link>
-        {links.map((link) => (
-          <Link key={link.href} href={link.href} className="text-sm hover:underline">
-            {link.label}
-          </Link>
-        ))}
-      </nav>
+        <NavLinks links={paginas.map((pagina) => ({ href: `/${lang}/${pagina}`, rotulo: t.nav[pagina] }))} />
+        <div className="flex items-center gap-2">
+          <TrocarIdioma lang={lang} rotulo={t.trocarIdioma} />
+          <TrocarTema rotulos={t.tema} />
+        </div>
+      </div>
     </header>
   );
 }

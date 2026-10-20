@@ -1,16 +1,27 @@
+import Image from "next/image";
 import Link from "next/link";
-import type { Projeto } from "@/lib/conteudo";
+import type { Area, Projeto } from "@/lib/conteudo";
 
-export default function CardProjeto({ projeto }: { projeto: Projeto }) {
+export default function CardProjeto({ projeto, lang, areas, detalhes }: { projeto: Projeto; lang: string; areas: Record<Area, string>; detalhes: string }) {
   return (
-    <Link
-      href={`/projetos/${projeto.slug}`}
-      className="block rounded-lg border border-foreground/10 p-4 hover:border-foreground/30"
-    >
-      <p className="text-xs uppercase tracking-wide opacity-60">{projeto.area}</p>
-      <h3 className="font-semibold">{projeto.titulo}</h3>
-      <p className="text-sm opacity-80">{projeto.resumo}</p>
-      <p className="mt-2 text-xs opacity-60">{projeto.tecnologias.join(" · ")}</p>
-    </Link>
+    <li className="cartao group relative flex flex-col p-6 hover:border-roxo">
+      <div className="flex h-10 items-center gap-2">
+        {projeto.icones?.map((icone) => <Image key={icone} src={`/skills/${icone}.svg`} alt="" width={36} height={36} />)}
+      </div>
+      <h3 className="mt-6 font-pixel text-xl">
+        <Link href={`/${lang}/projetos/${projeto.slug}`} className="after:absolute after:inset-0 after:rounded-[1.25rem]">
+          {projeto.titulo}
+        </Link>
+      </h3>
+      <p className="mt-2 text-sm leading-relaxed text-suave">{projeto.resumo}</p>
+      <p className="mt-auto flex justify-between pt-6 text-sm">
+        <span className="text-suave">
+          {areas[projeto.area]}, {projeto.data.slice(0, 4)}
+        </span>
+        <span aria-hidden className="text-roxo group-hover:underline">
+          {detalhes} ↗
+        </span>
+      </p>
+    </li>
   );
 }

@@ -1,0 +1,31 @@
+export const metadata = {
+  titulo: "IA Generativa do Zero",
+  resumo: "Um chatbot em português treinado do zero: tokenizer BPE próprio, Transformer em PyTorch, pré-treino na Wikipédia e ajuste fino.",
+  area: "IA",
+  tecnologias: ["Python", "PyTorch", "Flask", "Docker", "GitHub Actions"],
+  icones: ["python", "pytorch", "flask", "docker"],
+  data: "2026-10-18",
+  destaque: true,
+};
+
+## A ideia
+
+Entender um modelo de linguagem por dentro, construindo um: sem modelos pré-treinados e sem APIs de IA pagas. Do tokenizer à interface de chat, tudo foi implementado no projeto e treinado numa GPU doméstica.
+
+## Como funciona
+
+- **Tokenizer BPE próprio**, com 16 mil tokens. Reescrevi a contagem de pares para ser incremental, o que tirou o treino do tokenizer de O(vocabulário × corpus).
+- **Transformer decoder-only** implementado à mão em PyTorch: 8 camadas, d_model 512, cerca de 25 milhões de parâmetros.
+- **Pré-treino** em 1,5 bilhão de caracteres da Wikipédia em português (411 milhões de tokens), cerca de 6 horas numa RTX 4060 Ti.
+- **Ajuste fino (SFT)** com o dataset Canarim (~143 mil pares de pergunta e resposta) e diálogos gerados por script, com a loss contando só nas respostas.
+- **Treino:** aquecimento com decaimento em cosseno, gradient clipping, bfloat16, early stopping pela loss de validação e acumulação de gradiente para um experimento de 126 milhões de parâmetros caber em 8 GB de VRAM.
+- **Ferramentas no chat:** contas, conversões, datas e sorteios são respondidos por código determinístico, e a interface mostra qual ferramenta respondeu. A busca na web é feita por scraping e mostra as fontes.
+- **Infra:** Docker separado para treino (GPU) e chat (CPU), testes com pytest e CI no GitHub Actions.
+
+## Resultados
+
+Avaliei com 85 perguntas fixas em quatro categorias. A melhor versão acerta 69% no total: 100% nas perguntas do treino, 72% em paráfrases, 56% em conhecimento vindo do pré-treino e 47% nas que dependem do histórico da conversa. Comparei as versões com teste de McNemar, porque nem toda diferença de acerto é real. A v4 não acerta mais que a v3 (p = 0,45), mas termina as respostas sozinha: as que estouravam o limite caíram de 10 para 2.
+
+## O que aprendi
+
+Um modelo pequeno imita o formato de uma conta, mas não calcula. Por isso as contas ficaram com a calculadora determinística, e o modelo cuida só da conversa.

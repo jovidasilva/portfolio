@@ -1,0 +1,28 @@
+export const metadata = {
+  titulo: "Slimegame",
+  resumo: "Metroidvania 2D em Godot: uma slime que absorve formas e habilidades dos inimigos para explorar dois mundos.",
+  area: "Jogos",
+  tecnologias: ["Godot 4", "GDScript", "Aseprite", "Python"],
+  icones: ["godot", "python"],
+  data: "2026-10-01",
+  destaque: true,
+};
+
+## O jogo
+
+Você é **Gota**, uma slime que ganhou consciência ao absorver um Fragmento de um deus caído. Ela explora dois mundos interligados, **Alterra** (a superfície) e **o Fundo** (o abismo subterrâneo), e a progressão vem das habilidades que ela rouba dos inimigos, não de chaves. As inspirações são Hollow Knight, Silksong e Blasphemous, com combate no estilo souls-like.
+
+## Como funciona
+
+- **Player em componentes:** movimento, dash, combate, visual, colisão, habilidades e formas são módulos separados que compartilham um único estado.
+- **Formas:** Slime, Humano e Cavaleiro, cada uma com seu pulo, sua relação com paredes e água e seu ataque próprio.
+- **Combate:** combos com timing e hitbox por golpe, defesa que se desgasta, parry de 0,3 s, golpes vermelhos que não podem ser defendidos, hit-stop e tremor de câmera nos golpes pesados.
+- **Mácula:** uma infestação que cresce durante os encontros, reforça os ataques e cobra um preço; dá para purgá-la num golpe em área.
+- **Inimigos:** morcego, golem (leve, pesado e voador), grob, lobo, aranha, entre outros, cada um com sua IA.
+- **Mundo e save:** transição entre salas, checkpoints, zonas de perigo, moeda que fica no lugar da morte e progresso salvo.
+
+A arte é feita à mão no Aseprite, e um script em Python gera as folhas de sprite da HUD a partir dos arquivos originais.
+
+## Organização
+
+São mais de 180 commits, feitos com branches e pull requests, 35 testes automatizados das mecânicas e um Game Design Document que acompanha cada mudança.

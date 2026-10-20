@@ -1,0 +1,28 @@
+export const metadata = {
+  titulo: "Steadyhand",
+  resumo: "Luva inteligente que detecta o tremor do Parkinson com sensores inerciais e Machine Learning e responde com estimulação elétrica funcional (FES).",
+  area: "Hardware",
+  tecnologias: ["ESP32", "IMU", "Machine Learning", "FES"],
+  data: "2026-09-28",
+};
+
+*Em andamento: projeto do estágio, desenvolvido em dupla.*
+
+## O problema
+
+O tremor é um dos sintomas mais incapacitantes da Doença de Parkinson e atrapalha tarefas simples, como comer, escrever e se vestir. A levodopa perde eficácia com o tempo, e a estimulação cerebral profunda é invasiva e cara. Faltam opções não invasivas e de baixo custo.
+
+## A proposta
+
+Uma luva que funciona em malha fechada:
+
+1. Um sensor inercial (acelerômetro + giroscópio) lê o movimento da mão.
+2. O ESP32 filtra o sinal na faixa do tremor parkinsoniano (~3–6 Hz) e extrai as features.
+3. Um classificador leve separa tremor de repouso, tremor postural e movimento voluntário.
+4. Quando detecta o tremor, dispara a estimulação elétrica funcional pelos eletrodos.
+
+O diferencial é estimular em resposta ao tremor detectado, e não numa sessão programada, usando hardware barato.
+
+## Situação
+
+Até agora fizemos o documento de design, com estado da arte, concorrentes (GyroGlove, Cala Trio), escopo do MVP, arquitetura e cronograma, além de um levantamento da literatura sobre Parkinson. O próximo passo é a aquisição de dados com o IMU.

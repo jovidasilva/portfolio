@@ -1,0 +1,28 @@
+export const metadata = {
+  titulo: "Steadyhand",
+  resumo: "A smart glove that detects Parkinson's tremor with inertial sensors and machine learning, and responds with functional electrical stimulation (FES).",
+  area: "Hardware",
+  tecnologias: ["ESP32", "IMU", "Machine Learning", "FES"],
+  data: "2026-09-28",
+};
+
+*In progress: an internship project, built in a pair.*
+
+## The problem
+
+Tremor is one of the most disabling symptoms of Parkinson's disease and gets in the way of simple tasks like eating, writing and getting dressed. Levodopa loses effectiveness over time, and deep brain stimulation is invasive and expensive. Non-invasive, low-cost options are missing.
+
+## The proposal
+
+A glove that works in a closed loop:
+
+1. An inertial sensor (accelerometer + gyroscope) reads the hand's movement.
+2. The ESP32 filters the signal in the Parkinsonian tremor band (~3–6 Hz) and extracts features.
+3. A lightweight classifier tells apart resting tremor, postural tremor and voluntary movement.
+4. When it detects tremor, it triggers functional electrical stimulation through the electrodes.
+
+The difference is stimulating in response to detected tremor, not on a fixed schedule, using inexpensive hardware.
+
+## Status
+
+So far we have the design document, with the state of the art, competitors (GyroGlove, Cala Trio), MVP scope, architecture and schedule, plus a literature review on Parkinson's. The next step is collecting data with the IMU.

@@ -1,0 +1,31 @@
+export const metadata = {
+  titulo: "Generative AI from Scratch",
+  resumo: "A Portuguese chatbot trained from scratch: my own BPE tokenizer, a Transformer in PyTorch, Wikipedia pre-training and fine-tuning.",
+  area: "IA",
+  tecnologias: ["Python", "PyTorch", "Flask", "Docker", "GitHub Actions"],
+  icones: ["python", "pytorch", "flask", "docker"],
+  data: "2026-10-18",
+  destaque: true,
+};
+
+## The idea
+
+Understand a language model from the inside by building one: no pre-trained models and no paid AI APIs. From the tokenizer to the chat interface, everything was implemented in the project and trained on a home GPU.
+
+## How it works
+
+- **My own BPE tokenizer**, with 16k tokens. I rewrote the pair counting to be incremental, which took tokenizer training off O(vocabulary × corpus).
+- **Decoder-only Transformer** implemented by hand in PyTorch: 8 layers, d_model 512, about 25 million parameters.
+- **Pre-training** on 1.5 billion characters of Portuguese Wikipedia (411 million tokens), about 6 hours on an RTX 4060 Ti.
+- **Fine-tuning (SFT)** with the Canarim dataset (~143k question-answer pairs) and script-generated dialogues, with the loss computed only on the answers.
+- **Training:** warmup with cosine decay, gradient clipping, bfloat16, early stopping on validation loss, and gradient accumulation so a 126-million-parameter experiment fits in 8 GB of VRAM.
+- **Tools in the chat:** math, conversions, dates and random draws are answered by deterministic code, and the interface shows which tool answered. Web search works through scraping and shows its sources.
+- **Infrastructure:** separate Docker setups for training (GPU) and chat (CPU), pytest tests and CI on GitHub Actions.
+
+## Results
+
+I evaluated it with 85 fixed questions in four categories. The best version gets 69% overall: 100% on training questions, 72% on paraphrases, 56% on knowledge coming from pre-training and 47% on questions that depend on the conversation history. I compared versions with McNemar's test, because not every accuracy difference is real. v4 is not more accurate than v3 (p = 0.45), but it ends its answers on its own: answers that ran past the length limit dropped from 10 to 2.
+
+## What I learned
+
+A small model imitates the format of a calculation but doesn't actually calculate. That's why math went to a deterministic calculator, and the model only handles the conversation.

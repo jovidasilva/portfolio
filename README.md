@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# jovidasilva.com.br
 
-## Getting Started
+Meu portfólio: projetos, artigos, currículo e as ferramentas que uso.
 
-First, run the development server:
+Feito com Next.js 16 (App Router), React 19, MDX e Tailwind CSS 4. Uma página inicial que leva a páginas próprias: Sobre mim, Conhecimento, Experiências, Projetos (com um painel que lê a API do GitHub e se atualiza a cada hora), Certificados, Artigos e Contato. Visual escuro em preto, roxo e azul, com títulos em fonte pixel (Silkscreen) e texto em Sora.
+
+## Idioma e tema
+
+- O site existe em `/pt` e `/en`. Na primeira visita, `proxy.ts` escolhe o idioma: a escolha salva no botão de idioma vem primeiro, depois o país do visitante (na Vercel, Brasil vê em português e o resto em inglês) e, sem país, o idioma do navegador. O currículo acompanha o idioma (`curriculo.pdf` ou `resume.pdf`).
+- O tema segue o claro/escuro do sistema, e o botão no topo troca e lembra a escolha no navegador.
+
+## Rodar
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev        # http://localhost:3000
+npm run lint
+npm run typecheck
+npm test           # testes de lib/*.test.ts
+npm run build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+O CI no GitHub Actions roda lint, typecheck, testes e build a cada push.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Painel do GitHub
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Sem configuração, o painel usa só os repositórios públicos. Para contar também os privados, crie um token *fine-grained* com acesso somente leitura a **Contents** e **Metadata** dos seus repositórios e configure na hospedagem como `GITHUB_TOKEN`. O painel nunca mostra o nome de um repositório privado, só os números somados.
 
-## Learn More
+## Onde fica cada coisa
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `content/pt/...` e `content/en/...`: um `.mdx` por projeto ou artigo, com o mesmo nome nos dois idiomas. Os metadados vêm no `export const metadata` no topo do arquivo; `icones` usa os nomes de `public/skills`.
+- `lib/textos.ts`: todos os textos fixos do site em português e inglês.
+- `content/certificados.ts`: a lista de certificados. Coloque o PDF ou a imagem em `public/certificados/` e adicione um objeto com título, emissor, data e o caminho do arquivo.
+- `app/[lang]/`: as páginas; `proxy.ts` redireciona quem chega sem idioma na URL.
+- `public/curriculo.pdf` e `public/resume.pdf`: currículo em português e em inglês.
+- `lib/github.ts`: busca e cache dos dados do painel; as contas ficam em `lib/numeros.ts`.
+- `public/skills/`: ícones do [skillicons.dev](https://skillicons.dev) usados na página Uses.

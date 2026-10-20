@@ -1,0 +1,30 @@
+export const metadata = {
+  titulo: "INTERMED",
+  resumo: "A web system to manage a medical school internship: students, preceptors, rotations between health units, and evaluations.",
+  area: "Web",
+  tecnologias: ["PHP 8", "MySQL", "JavaScript", "Bootstrap", "Composer", "Docker"],
+  icones: ["php", "mysql", "bootstrap", "docker"],
+  data: "2026-07-18",
+  repo: "Interdisciplinar-Med",
+};
+
+## The problem
+
+A medical internship involves many people and a lot of logistics: students rotating between health units, preceptors who supervise and evaluate each group, and a coordination team that puts it all together. INTERMED brings this process into a single system, with a dashboard for each role.
+
+## What I did
+
+The project started as an interdisciplinary university assignment, built as a team. I was responsible for:
+
+- the user registration and authentication modules;
+- the integration between the front end and the PHP back end;
+- designing and normalizing the MySQL database behind the system;
+- modeling the architecture in UML and organizing the code into modules with Composer.
+
+## Portfolio revision
+
+Later I went back to the code to make it presentable: I fixed security flaws (access control, an IDOR case, XSS in CSV upload, hardcoded credentials), added CSRF tokens and login rate limiting, password recovery by email, Docker Compose to run everything locally, and CI on GitHub Actions.
+
+## What I learned
+
+Security isn't a module you add at the end. Most of the fixes came from decisions made early in the project, and some known issues are still documented in the README, like deletions through GET links without CSRF protection.
