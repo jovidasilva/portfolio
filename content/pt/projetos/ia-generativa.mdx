@@ -20,6 +20,8 @@ Os 8 GB de memória da placa foram o limite o tempo todo. Bfloat16 e acumulaçã
 
 O chat roda em Flask. Contas, conversões, datas e sorteios são resolvidos por código comum, e a interface avisa quando foi uma ferramenta que respondeu. Também tem busca na web, que mostra as fontes. Treino e chat ficam em contêineres Docker separados, com testes em pytest e CI no GitHub Actions.
 
+Para o site, exportei o modelo para ONNX com os pesos em 8 bits, o que reduziu o arquivo de 510 para 140 MB, e reescrevi o tokenizer e a geração em TypeScript. Assim a NADIA roda no navegador de quem visita, sem servidor, e o resultado no teste ficou praticamente igual ao do modelo original.
+
 ## Resultados
 
 Para comparar as versões, montei um teste fixo com 85 perguntas e outro com 40 perguntas sem resposta possível, sobre pessoas e lugares inventados. Sem nenhum filtro, a NADIA acerta 66% das 85, mas inventa resposta para quase todas as 40, com o mesmo tom confiante das respostas certas.
@@ -30,7 +32,7 @@ Dois testes não funcionaram, e entraram no artigo do mesmo jeito. Passar de 25 
 
 ## Converse com a NADIA
 
-<DemoIA status="No site" botao="Abrir o chat da NADIA">Ela fica no ícone de chat no canto da tela, em qualquer página. Responde sobre o site e te leva às páginas na hora; o resto vai para o modelo, que mostra a confiança de cada resposta.</DemoIA>
+<DemoIA status="No site" botao="Abrir o chat da NADIA">Ela fica no ícone de chat no canto da tela, em qualquer página. Responde sobre o site e te leva às páginas na hora. Para o resto, o modelo roda aqui mesmo, no seu navegador: são 140 MB baixados uma vez, nenhuma pergunta sai do seu computador, e cada resposta mostra a confiança.</DemoIA>
 
 ## O que aprendi
 

@@ -26,10 +26,21 @@ Opcional: `GITHUB_TOKEN` (somente leitura) para o painel incluir os repositório
 ## NADIA, o chat do site
 
 O ícone de chat no canto de todas as páginas é a NADIA, o modelo que treinei do zero ([IAgenerativa](https://github.com/jovidasilva/IAgenerativa)).
-Perguntas sobre o site (páginas, projetos, contato) são respondidas aqui mesmo, em `lib/nadia.ts`, e podem navegar entre as páginas.
-O resto vai para o servidor do modelo, definido em `NEXT_PUBLIC_NADIA_URL` (lida na hora do build). Sem essa variável, a NADIA só responde sobre o site.
+Ela responde em camadas, da mais exata para a menos:
+
+1. **Site** (`lib/nadia.ts`): páginas, projetos, contato e currículo, e navega entre as páginas.
+2. **Ferramentas** (`lib/nadia-ferramentas.ts`): contas e a Wikipédia em português, com a fonte.
+3. **Modelo no navegador** (`NEXT_PUBLIC_NADIA_MODELO`, endereço do `model_q8.onnx`): 126M de parâmetros em int8 (~140 MB), baixado uma vez com o consentimento do visitante e guardado no cache. Roda num Web Worker com o ONNX Runtime Web (`lib/nadia.worker.ts`), com o mesmo tokenizer, a mesma geração e o mesmo filtro de confiança do servidor.
+4. **Servidor** (`NEXT_PUBLIC_NADIA_URL`): o chat em Flask do IAgenerativa, se não houver modelo no navegador.
+
+Sem nenhuma das duas variáveis, ficam só o site e as ferramentas. As duas são lidas na hora do build.
 
 ```bash
-# com o chat do IAgenerativa rodando (docker compose up -d), que já aceita localhost:3000:
-NEXT_PUBLIC_NADIA_URL=http://localhost:8080 npm run dev
+# modelo no navegador, testando localmente: copie model_q8.onnx para public/nadia/ (fica fora do git)
+NEXT_PUBLIC_NADIA_MODELO=/nadia/model_q8.onnx npm run dev
+
+# conferir a NADIA em TypeScript contra a referência em Python do IAgenerativa
+node scripts/conferir-nadia.ts public/nadia/model_q8.onnx referencia.json
 ```
+
+O modelo, o `tokenizer.json` e o `config.json` de `public/nadia/` saem do `scripts/exportar_onnx.py` do IAgenerativa.

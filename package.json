@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "predev": "node scripts/copiar-ort.mjs",
+    "prebuild": "node scripts/copiar-ort.mjs",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -16,6 +18,7 @@
     "@next/mdx": "^16.4.2",
     "@types/mdx": "^2.0.14",
     "next": "16.4.2",
+    "onnxruntime-web": "1.29.0",
     "react": "19.3.0",
     "react-dom": "19.3.0"
   },

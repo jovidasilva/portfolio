@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# NADIA: motor ONNX copiado de node_modules e o modelo (140 MB) para testes locais
+/public/nadia/ort/
+/public/nadia/*.onnx

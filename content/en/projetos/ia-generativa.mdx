@@ -20,6 +20,8 @@ The card's 8 GB of memory was the limit the whole time. Bfloat16 and gradient ac
 
 The chat runs on Flask. Math, conversions, dates and random draws are handled by regular code, and the interface shows when a tool gave the answer. There's also web search, which shows its sources. Training and chat live in separate Docker containers, with pytest tests and CI on GitHub Actions.
 
+For the site, I exported the model to ONNX with 8-bit weights, which shrank the file from 510 to 140 MB, and rewrote the tokenizer and generation in TypeScript. That way NADIA runs in the visitor's browser, with no server, and the test results stayed practically the same as the original model's.
+
 ## Results
 
 To compare versions, I built a fixed test of 85 questions and another of 40 questions that have no possible answer, about made-up people and places. With no filter, NADIA gets 66% of the 85 right, but invents an answer for almost all of the 40, in the same confident tone as the correct ones.
@@ -30,7 +32,7 @@ Two experiments didn't work, and went into the paper anyway. Going from 25 to 12
 
 ## Talk to NADIA
 
-<DemoIA status="On this site" botao="Open the NADIA chat">She lives in the chat icon in the corner of every page. She answers about the site and takes you to pages right away; anything else goes to the model (Portuguese only), which shows how confident it is in each answer.</DemoIA>
+<DemoIA status="On this site" botao="Open the NADIA chat">She lives in the chat icon in the corner of every page. She answers about the site and takes you to pages right away. For anything else, the model runs right here in your browser (Portuguese only): 140 MB downloaded once, no question leaves your computer, and each answer shows how confident it is.</DemoIA>
 
 ## What I learned
 
