@@ -1,0 +1,22 @@
+export const metadata = {
+  titulo: "Análise de ECG",
+  resumo: "Um sistema de baixo custo que limpa o sinal do ECG e separa cada batimento, como base para detectar arritmias.",
+  area: "Dados",
+  tecnologias: ["Python", "NumPy", "SciPy", "Pandas", "Matplotlib", "WFDB", "FastAPI"],
+  icones: ["python"],
+  data: "2025-12-06",
+};
+
+*Pesquisa em coautoria na Universidade Ceuma.*
+
+As doenças do coração são a principal causa de morte no Brasil, e em muitas regiões quase não há cardiologistas para ler um eletrocardiograma. A proposta é um sistema de baixo custo que faça a primeira parte desse trabalho: tratar o sinal e separar cada batimento, para que depois um modelo de IA possa apontar possíveis arritmias. A ideia não é substituir o médico, e sim levar o exame até um especialista quando não existe um por perto.
+
+## O que fizemos
+
+Usamos uma base pública de eletrocardiogramas, a MIT-BIH, com 18 gravações de cerca de 24 horas. Em Python, o sinal passa por filtros que tiram o ruído da rede elétrica, a oscilação da linha de base e os artefatos de movimento. Depois, o algoritmo de Pan-Tompkins encontra cada batimento, e o sinal é cortado em janelas de um segundo em volta de cada um. O código também virou uma API em FastAPI, para ser ligado a outros sistemas mais tarde.
+
+## Próximos passos
+
+Usar aprendizado de máquina para separar as ondas P, QRS e T e reconhecer arritmias, testar em outras bases e levar tudo para um hardware barato que leia o ECG em tempo real.
+
+O trabalho virou o artigo [Sistema computacional para auxiliar a análise de eletrocardiograma via segmentação das ondas](https://www.even3.com.br/anais/iii-seminario-internacional-educacao-empreendedorismo-gestao-projetos/1421588/), apresentado no III Seminário Internacional de Educação, Empreendedorismo e Gestão de Projetos (2025).

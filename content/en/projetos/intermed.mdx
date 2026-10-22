@@ -2,29 +2,28 @@ export const metadata = {
   titulo: "INTERMED",
   resumo: "A web system to manage a medical school internship: students, preceptors, rotations between health units, and evaluations.",
   area: "Web",
-  tecnologias: ["PHP 8", "MySQL", "JavaScript", "Bootstrap", "Composer", "Docker"],
-  icones: ["php", "mysql", "bootstrap", "docker"],
+  tecnologias: ["PHP 8", "Laravel", "React", "MySQL", "JavaScript", "Bootstrap", "Composer", "Docker"],
+  icones: ["php", "laravel", "react", "mysql", "docker"],
   data: "2026-07-18",
   repo: "Interdisciplinar-Med",
 };
 
-## The problem
+A medical internship involves a lot of people: students rotating between health units, preceptors who supervise and evaluate each group, and a coordination team that organizes it all. At many schools this is still handled with printed forms, spreadsheets and informal arrangements. That means delays, rework, paper evaluations that get lost and little clarity about who did what.
 
-A medical internship involves many people and a lot of logistics: students rotating between health units, preceptors who supervise and evaluate each group, and a coordination team that puts it all together. INTERMED brings this process into a single system, with a dashboard for each role.
+Talking to coordinators and preceptors, we saw there was no system built for the internship that handled both the teaching side and the administrative side. INTERMED was made for that: it brings the whole process into a single system, with a dashboard for each role.
 
 ## What I did
 
-The project started as an interdisciplinary university assignment, built as a team. I was responsible for:
+The project started as an interdisciplinary university assignment, built as a team. I handled user registration and authentication, the connection between the front end and the PHP back end, and the MySQL database, from modeling to normalization. I also modeled the architecture in UML and organized the code into modules with Composer.
 
-- the user registration and authentication modules;
-- the integration between the front end and the PHP back end;
-- designing and normalizing the MySQL database behind the system;
-- modeling the architecture in UML and organizing the code into modules with Composer.
+The first version was built with PHP and Bootstrap. Later, the system moved to Laravel on the back end and React on the front end.
+
+## The paper
+
+The project became a paper in the REASE journal, with me as first author: [Desenvolvimento de um sistema web para gerenciamento de internatos médicos](https://doi.org/10.51891/rease.v12i1.23332) (2026, in Portuguese). In tests with the prototype, tasks the coordination team used to do by hand got much faster. Generating rotations, for example, went from 5 hours to about 9 minutes.
 
 ## Portfolio revision
 
-Later I went back to the code to make it presentable: I fixed security flaws (access control, an IDOR case, XSS in CSV upload, hardcoded credentials), added CSRF tokens and login rate limiting, password recovery by email, Docker Compose to run everything locally, and CI on GitHub Actions.
+Later I went back to the code to make it presentable. I fixed security flaws (access control, an IDOR case, XSS in the CSV upload and credentials written in the code) and added CSRF protection, login rate limiting, password recovery by email, Docker Compose and CI on GitHub Actions.
 
-## What I learned
-
-Security isn't a module you add at the end. Most of the fixes came from decisions made early in the project, and some known issues are still documented in the README, like deletions through GET links without CSRF protection.
+Some issues are still open, like deletions through GET links without CSRF protection, and they're noted in the README. Almost everything I fixed came from decisions made at the very start of the project.

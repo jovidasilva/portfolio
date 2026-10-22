@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 export default function NavLinks({ links }: { links: { href: string; rotulo: string }[] }) {
   const pathname = usePathname();
   return (
-    <nav aria-label="Principal" className="order-last -mx-1 flex w-full gap-x-1 overflow-x-auto text-sm xl:order-none xl:w-auto">
+    <nav className="order-last -mx-1 flex w-full gap-x-1 overflow-x-auto pr-8 text-sm [mask-image:linear-gradient(to_right,#000_calc(100%-2.5rem),transparent)] [scrollbar-width:none] xl:order-none xl:w-auto xl:pr-0 xl:[mask-image:none] [&::-webkit-scrollbar]:hidden">
       {links.map((link) => {
         const atual = pathname.startsWith(link.href);
         return (

@@ -2,27 +2,22 @@ export const metadata = {
   titulo: "Slimegame",
   resumo: "Metroidvania 2D em Godot: uma slime que absorve formas e habilidades dos inimigos para explorar dois mundos.",
   area: "Jogos",
-  tecnologias: ["Godot 4", "GDScript", "Aseprite", "Python"],
-  icones: ["godot", "python"],
+  tecnologias: ["Godot 4", "GDScript", "Aseprite"],
+  icones: ["godot"],
   data: "2026-10-01",
   destaque: true,
 };
 
-## O jogo
+Slimegame é um metroidvania 2D que estou fazendo em Godot, inspirado em Hollow Knight, Silksong e Blasphemous, com combate no estilo souls-like.
 
-Você é **Gota**, uma slime que ganhou consciência ao absorver um Fragmento de um deus caído. Ela explora dois mundos interligados, **Alterra** (a superfície) e **o Fundo** (o abismo subterrâneo), e a progressão vem das habilidades que ela rouba dos inimigos, não de chaves. As inspirações são Hollow Knight, Silksong e Blasphemous, com combate no estilo souls-like.
+A história ainda está em desenvolvimento, mas a ideia por enquanto é esta: você joga com a Gota, uma slime que ganhou consciência ao absorver o fragmento de um deus caído. Ela explora dois mundos ligados, a superfície e o subterrâneo, e avança roubando as habilidades dos inimigos.
 
-## Como funciona
+## O que já está no jogo
 
-- **Player em componentes:** movimento, dash, combate, visual, colisão, habilidades e formas são módulos separados que compartilham um único estado.
-- **Formas:** Slime, Humano e Cavaleiro, cada uma com seu pulo, sua relação com paredes e água e seu ataque próprio.
-- **Combate:** combos com timing e hitbox por golpe, defesa que se desgasta, parry de 0,3 s, golpes vermelhos que não podem ser defendidos, hit-stop e tremor de câmera nos golpes pesados.
-- **Mácula:** uma infestação que cresce durante os encontros, reforça os ataques e cobra um preço; dá para purgá-la num golpe em área.
-- **Inimigos:** morcego, golem (leve, pesado e voador), grob, lobo, aranha, entre outros, cada um com sua IA.
-- **Mundo e save:** transição entre salas, checkpoints, zonas de perigo, moeda que fica no lugar da morte e progresso salvo.
+A Gota tem três formas, Slime, Humano e Cavaleiro, e cada uma pula, lida com paredes e água e ataca de um jeito. O combate tem combos que dependem do tempo certo, uma defesa que se desgasta, parry e golpes vermelhos que não dá para defender, além de uma pausa curta e tremor de câmera nos golpes pesados.
 
-A arte é feita à mão no Aseprite, e um script em Python gera as folhas de sprite da HUD a partir dos arquivos originais.
+Durante as lutas cresce a Mácula, uma infestação que deixa os ataques mais fortes mas cobra um preço, e que pode ser purgada num golpe em área. Já existem vários inimigos, como morcego, golem, grob, lobo e aranha, cada um com seu comportamento. O mundo tem transição entre salas, checkpoints, zonas de perigo e progresso salvo, e quando a Gota morre a moeda fica caída no lugar.
 
-## Organização
+## Como faço
 
-São mais de 180 commits, feitos com branches e pull requests, 35 testes automatizados das mecânicas e um Game Design Document que acompanha cada mudança.
+Desenho toda a arte à mão no Aseprite. No código, cada parte da personagem, como movimento, combate, habilidades e formas, é um módulo separado, o que me deixa mexer numa sem quebrar as outras. As mecânicas principais têm testes automatizados, e mantenho um documento de design do jogo atualizado a cada mudança.

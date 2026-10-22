@@ -1,6 +1,6 @@
 export const metadata = {
   titulo: "Steadyhand",
-  resumo: "Luva inteligente que detecta o tremor do Parkinson com sensores inerciais e Machine Learning e responde com estimulação elétrica funcional (FES).",
+  resumo: "Uma luva que percebe o tremor do Parkinson e responde com estímulos elétricos leves nos músculos para ajudar a controlá-lo.",
   area: "Hardware",
   tecnologias: ["ESP32", "IMU", "Machine Learning", "FES"],
   data: "2026-09-28",
@@ -8,21 +8,16 @@ export const metadata = {
 
 *Em andamento: projeto do estágio, desenvolvido em dupla.*
 
-## O problema
+O tremor é um dos sintomas que mais atrapalham quem tem Parkinson, em coisas simples como comer, escrever e se vestir. O principal remédio perde efeito com os anos, e a cirurgia indicada em alguns casos é cara e invasiva. O Steadyhand quer ser uma opção barata, que a pessoa só precisa vestir.
 
-O tremor é um dos sintomas mais incapacitantes da Doença de Parkinson e atrapalha tarefas simples, como comer, escrever e se vestir. A levodopa perde eficácia com o tempo, e a estimulação cerebral profunda é invasiva e cara. Faltam opções não invasivas e de baixo custo.
+## Como vai funcionar
 
-## A proposta
+1. **Sensor:** a luva acompanha o movimento da mão o tempo todo.
+2. **Vibração:** quando o movimento tem o ritmo do tremor, ela percebe que não é um gesto normal.
+3. **FES:** ela aplica estímulos elétricos leves nos músculos, a chamada estimulação elétrica funcional, que ajudam a segurar o tremor.
 
-Uma luva que funciona em malha fechada:
+A luva só age quando o tremor aparece. No resto do tempo, ela não interfere no movimento.
 
-1. Um sensor inercial (acelerômetro + giroscópio) lê o movimento da mão.
-2. O ESP32 filtra o sinal na faixa do tremor parkinsoniano (~3–6 Hz) e extrai as features.
-3. Um classificador leve separa tremor de repouso, tremor postural e movimento voluntário.
-4. Quando detecta o tremor, dispara a estimulação elétrica funcional pelos eletrodos.
+## Onde está
 
-O diferencial é estimular em resposta ao tremor detectado, e não numa sessão programada, usando hardware barato.
-
-## Situação
-
-Até agora fizemos o documento de design, com estado da arte, concorrentes (GyroGlove, Cala Trio), escopo do MVP, arquitetura e cronograma, além de um levantamento da literatura sobre Parkinson. O próximo passo é a aquisição de dados com o IMU.
+O projeto ainda está no começo. Já fizemos o planejamento e estudamos o Parkinson e as luvas parecidas que existem. O próximo passo é coletar os primeiros dados com o sensor.

@@ -11,7 +11,7 @@ export default function CabecalhoPagina({ pagina, titulo, intro, voltar, cor = "
       <div className="mx-auto max-w-6xl px-5 pb-12 pt-8 sm:px-8 sm:pt-10">
         <Voltar href={voltar.href} rotulo={voltar.rotulo} />
         <PixelIcone nome={pagina} className="mt-10 h-12 w-auto" />
-        <h1 className="mt-6 font-pixel text-5xl leading-[1.05] sm:text-7xl">{titulo}</h1>
+        <h1 className="mt-6 break-words font-pixel text-[clamp(1.75rem,9vw,3rem)] leading-[1.05] sm:text-6xl md:text-7xl">{titulo}</h1>
         <p className="mt-5 max-w-[60ch] text-lg leading-relaxed text-suave">{intro}</p>
         {children}
       </div>

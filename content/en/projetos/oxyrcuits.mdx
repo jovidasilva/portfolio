@@ -1,22 +1,24 @@
 export const metadata = {
   titulo: "Oxyrcuits",
-  resumo: "Builder and simulator for circuits on perfboard, breadboard, Arduino and ESP32.",
+  resumo: "A Tinkercad-style circuit simulator to build and test projects on breadboard, perfboard and Arduino.",
   area: "Web",
-  tecnologias: ["HTML", "CSS", "JavaScript"],
-  icones: ["html", "css", "javascript"],
+  tecnologias: ["TypeScript", "Vite", "SVG", "PWA", "Vitest", "Playwright"],
+  icones: ["typescript", "vite", "html", "css"],
   data: "2026-09-30",
-  repo: "oxyrcuits",
+  repo: "Oxyrcuits",
   destaque: true,
 };
 
-## The problem
-
-Write here why the project exists.
+Oxyrcuits is basically a Tinkercad I built to understand and design circuits better, both for studying and for direct integration with AI. You build the circuit on a breadboard, perfboard, stripboard or Arduino/ESP32, wire up the parts and see how it behaves before soldering anything. It runs right in the browser: [jovidasilva.github.io/Oxyrcuits](https://jovidasilva.github.io/Oxyrcuits/).
 
 ## How it works
 
-Explain the solution. To add images, save the file in `public/projetos/` and use `![Description](/projetos/file.png)`.
+The simulation actually solves the circuit. It becomes a system of equations through modified nodal analysis, solved with the Newton-Raphson method, which is what makes it possible to simulate parts like diodes, transistors, regulators, relays and PWM. There's also an Arduino code interpreter that reads, checks and runs the sketch.
 
-## What I learned
+The app also reviews the layout: it finds the electrical connections, solder points and crossing traces, and flags design errors. Projects are saved in the browser, work offline and can be exported as JSON. Since it's a PWA, you can install it on a computer or a phone.
 
-What went wrong and what you would do differently.
+The simulation and the interpreter have Vitest tests, saving and opening projects is tested with Playwright, and every push publishes a new version to GitHub Pages.
+
+## Next steps
+
+Type the code module by module, since some files still skip type checking, move the simulation to a Web Worker and, further ahead, emulate the actual microcontroller with avr8js and use ngspice compiled to WebAssembly.

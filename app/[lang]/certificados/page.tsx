@@ -7,7 +7,7 @@ import { idiomaDa, metadadosDa } from "../pagina";
 
 export const generateMetadata = metadadosDa("certificados");
 
-const ehImagem = (arquivo?: string) => /\.(png|jpe?g|webp)$/i.test(arquivo ?? "");
+const ehImagem = (arquivo: string) => /\.(png|jpe?g|webp)$/i.test(arquivo);
 
 export default async function CertificadosPage({ params }: PageProps<"/[lang]/certificados">) {
   const lang = await idiomaDa(params);
@@ -29,7 +29,7 @@ export default async function CertificadosPage({ params }: PageProps<"/[lang]/ce
           ) : (
             <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {lista.map((certificado) => (
-                <li key={certificado.titulo + certificado.data} className="cartao flex flex-col overflow-hidden">
+                <li key={certificado.arquivo} className="cartao flex flex-col overflow-hidden">
                   {ehImagem(certificado.arquivo) && (
                     // eslint-disable-next-line @next/next/no-img-element -- imagens variadas em public, sem tamanho fixo
                     <img src={certificado.arquivo} alt="" className="aspect-[4/3] w-full border-b border-borda object-cover" />
@@ -38,15 +38,11 @@ export default async function CertificadosPage({ params }: PageProps<"/[lang]/ce
                     <time dateTime={certificado.data} className="text-sm text-suave">
                       {formatarData(certificado.data, lang)}
                     </time>
-                    <h2 className="mt-2 font-semibold">{certificado.titulo}</h2>
-                    <p className="mt-1 text-sm text-suave">
-                      {t.certificados.emitidoPor} {certificado.emissor}
-                    </p>
-                    {(certificado.link ?? certificado.arquivo) && (
-                      <a href={certificado.link ?? certificado.arquivo} className="mt-auto flex items-center gap-2 pt-6 text-sm text-roxo hover:underline">
-                        {t.certificados.ver} <Seta />
-                      </a>
-                    )}
+                    <h2 className="mt-2 font-semibold">{certificado[lang].titulo}</h2>
+                    <p className="mt-2 text-sm leading-relaxed text-suave">{certificado[lang].descricao}</p>
+                    <a href={certificado.arquivo} className="mt-auto flex items-center gap-2 pt-6 text-sm text-roxo hover:underline">
+                      {t.certificados.ver} <Seta />
+                    </a>
                   </div>
                 </li>
               ))}

@@ -17,15 +17,7 @@ export type Projeto = {
   destaque?: boolean;
 };
 
-export type Artigo = {
-  slug: string;
-  titulo: string;
-  resumo: string;
-  data: string; // AAAA-MM-DD
-  tags: string[];
-};
-
-type Pasta = "projetos" | "artigos";
+type Pasta = "projetos";
 
 // Nomes dos arquivos .mdx de content/<idioma>/<pasta>, sem a extensão
 export function listarSlugs(lang: Idioma, pasta: Pasta) {
@@ -52,7 +44,6 @@ async function listar<T extends { data: string }>(lang: Idioma, pasta: Pasta): P
 }
 
 export const getProjetos = (lang: Idioma) => listar<Projeto>(lang, "projetos");
-export const getArtigos = (lang: Idioma) => listar<Artigo>(lang, "artigos");
 
 // "2026-10-12" vira "12/10/2026" em português e "Oct 12, 2026" em inglês, sem passar por fuso horário
 export function formatarData(data: string, lang: Idioma) {

@@ -1,0 +1,22 @@
+export const metadata = {
+  titulo: "ECG Analysis",
+  resumo: "A low-cost system that cleans the ECG signal and splits it into individual heartbeats, as a base for detecting arrhythmias.",
+  area: "Dados",
+  tecnologias: ["Python", "NumPy", "SciPy", "Pandas", "Matplotlib", "WFDB", "FastAPI"],
+  icones: ["python"],
+  data: "2025-12-06",
+};
+
+*Co-authored research at Universidade Ceuma.*
+
+Heart disease is the leading cause of death in Brazil, and many regions have almost no cardiologists to read an electrocardiogram. The proposal is a low-cost system that handles the first part of that work: cleaning the signal and splitting out each heartbeat, so that an AI model can later point out possible arrhythmias. The goal isn't to replace doctors, but to get the exam to a specialist when there isn't one nearby.
+
+## What we did
+
+We used a public electrocardiogram database, MIT-BIH, with 18 recordings of about 24 hours each. In Python, the signal goes through filters that remove power-line noise, baseline wander and motion artifacts. Then the Pan-Tompkins algorithm finds each heartbeat, and the signal is cut into one-second windows around each one. The code also became a FastAPI API, so it can be connected to other systems later.
+
+## Next steps
+
+Use machine learning to separate the P, QRS and T waves and recognize arrhythmias, test on other databases and bring everything to cheap hardware that reads the ECG in real time.
+
+The work became the paper [Sistema computacional para auxiliar a análise de eletrocardiograma via segmentação das ondas](https://www.even3.com.br/anais/iii-seminario-internacional-educacao-empreendedorismo-gestao-projetos/1421588/) (in Portuguese), presented at the III International Seminar on Education, Entrepreneurship and Project Management (2025).

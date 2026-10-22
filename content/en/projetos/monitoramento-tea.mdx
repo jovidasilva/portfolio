@@ -1,0 +1,24 @@
+export const metadata = {
+  titulo: "AI Monitoring for Autism",
+  resumo: "My undergraduate research: an AI that reads a wearable's signals to spot stress and crises in autistic people.",
+  area: "IA",
+  tecnologias: ["Python", "TensorFlow", "PyTorch", "Pandas", "NumPy", "CNN", "LSTM"],
+  icones: ["python", "tensorflow", "pytorch"],
+  data: "2026-05-22",
+};
+
+*Undergraduate research (PIBIC 2025/2026) at Universidade Ceuma, on a research scholarship, advised by Prof. Jonathan Araujo Queiroz.*
+
+Autistic people can have anxiety crises and sensory overload that start with almost no warning. The research proposes a low-cost wearable that measures signals like heart rate, temperature and skin conductance, and an AI that recognizes in those signals when a crisis is building up, so family and caregivers can act sooner.
+
+## What I did
+
+My advisor's project is the device. My work plan was the AI software that analyzes its data.
+
+Real clinical data is hard to get, mainly for ethical reasons, so I worked with public physiological signal datasets and simulated data. In Python, I built the signal processing: normalization, noise filters, class balancing and splitting into time windows. For the models, I chose a convolutional network (CNN) to find patterns in the signals and an LSTM to follow how they change over time, comparing both against SVM and Random Forest.
+
+## How far it got
+
+The data processing is done and the architecture proved feasible, but the models haven't been validated yet. They still need testing on real data and fitting onto low-power hardware, since the goal is to run them on the device itself.
+
+The research became the paper [Dispositivo eletrônico reconfigurável baseado em inteligência artificial para suporte à saúde de indivíduos com transtorno do espectro autista](https://www.even3.com.br/anais/iii-seminario-internacional-educacao-empreendedorismo-gestao-projetos/1423208/) (in Portuguese), presented at the III International Seminar on Education, Entrepreneurship and Project Management (2025), and an extended abstract at Universidade Ceuma's IV SEMICTI (2026).

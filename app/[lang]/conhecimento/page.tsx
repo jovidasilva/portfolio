@@ -14,7 +14,7 @@ export default async function ConhecimentoPage({ params }: PageProps<"/[lang]/co
       <CabecalhoPagina voltar={{ href: `/${lang}`, rotulo: textos[lang].voltarInicio }} pagina="conhecimento" titulo={t.titulo} intro={textos[lang].paginas.conhecimento} cor="azul" />
       <div className="tracejado">
         <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8">
-          <Conhecimento dica={t.dica} extras={t.extras} titulos={t.grupos} descricoes={t.skills} />
+          <Conhecimento dica={t.dica} titulos={t.grupos} descricoes={t.skills} />
         </div>
       </div>
     </>

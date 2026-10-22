@@ -4,9 +4,9 @@ import Image from "next/image";
 import { useState } from "react";
 import { grupos, type Grupo } from "@/lib/skills";
 
-type Props = { dica: string; extras: string; titulos: Record<Grupo, string>; descricoes: Record<string, string> };
+type Props = { dica: string; titulos: Record<Grupo, string>; descricoes: Record<string, string> };
 
-export default function Conhecimento({ dica, extras, titulos, descricoes }: Props) {
+export default function Conhecimento({ dica, titulos, descricoes }: Props) {
   const [ativa, setAtiva] = useState<string | null>(null);
   const nome = grupos.flatMap(([, itens]) => itens).find(([icone]) => icone === ativa)?.[1];
 
@@ -24,7 +24,6 @@ export default function Conhecimento({ dica, extras, titulos, descricoes }: Prop
       {/* No desktop a descrição fica fixa ao lado; no celular aparece embaixo do grupo tocado */}
       <aside aria-live="polite" className="cartao hidden self-start p-8 lg:sticky lg:top-28 lg:block">
         <div className="min-h-32">{descricao}</div>
-        <p className="mt-8 text-sm text-suave">{extras}</p>
       </aside>
       <div className="space-y-12">
         {grupos.map(([grupo, itens]) => (
@@ -58,7 +57,6 @@ export default function Conhecimento({ dica, extras, titulos, descricoes }: Prop
             )}
           </section>
         ))}
-        <p className="text-sm text-suave lg:hidden">{extras}</p>
       </div>
     </div>
   );

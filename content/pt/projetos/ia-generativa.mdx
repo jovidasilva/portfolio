@@ -1,6 +1,6 @@
 export const metadata = {
   titulo: "IA Generativa do Zero",
-  resumo: "Um chatbot em português treinado do zero: tokenizer BPE próprio, Transformer em PyTorch, pré-treino na Wikipédia e ajuste fino.",
+  resumo: "Um chatbot em português que treinei do zero, do tokenizer ao ajuste fino, numa GPU de casa.",
   area: "IA",
   tecnologias: ["Python", "PyTorch", "Flask", "Docker", "GitHub Actions"],
   icones: ["python", "pytorch", "flask", "docker"],
@@ -8,24 +8,26 @@ export const metadata = {
   destaque: true,
 };
 
-## A ideia
+Eu queria entender como um modelo de linguagem funciona por dentro, e o jeito que encontrei foi construir um. Não usei modelo pré-treinado nem API paga. Tokenizer, Transformer, treino e interface de chat são todos do próprio projeto.
 
-Entender um modelo de linguagem por dentro, construindo um: sem modelos pré-treinados e sem APIs de IA pagas. Do tokenizer à interface de chat, tudo foi implementado no projeto e treinado numa GPU doméstica.
+## Como fiz
 
-## Como funciona
+Comecei pelo tokenizer, um BPE com 16 mil tokens. A primeira versão recontava todos os pares a cada passo e ficava lenta demais, então reescrevi a contagem para ser incremental.
 
-- **Tokenizer BPE próprio**, com 16 mil tokens. Reescrevi a contagem de pares para ser incremental, o que tirou o treino do tokenizer de O(vocabulário × corpus).
-- **Transformer decoder-only** implementado à mão em PyTorch: 8 camadas, d_model 512, cerca de 25 milhões de parâmetros.
-- **Pré-treino** em 1,5 bilhão de caracteres da Wikipédia em português (411 milhões de tokens), cerca de 6 horas numa RTX 4060 Ti.
-- **Ajuste fino (SFT)** com o dataset Canarim (~143 mil pares de pergunta e resposta) e diálogos gerados por script, com a loss contando só nas respostas.
-- **Treino:** aquecimento com decaimento em cosseno, gradient clipping, bfloat16, early stopping pela loss de validação e acumulação de gradiente para um experimento de 126 milhões de parâmetros caber em 8 GB de VRAM.
-- **Ferramentas no chat:** contas, conversões, datas e sorteios são respondidos por código determinístico, e a interface mostra qual ferramenta respondeu. A busca na web é feita por scraping e mostra as fontes.
-- **Infra:** Docker separado para treino (GPU) e chat (CPU), testes com pytest e CI no GitHub Actions.
+O modelo é um Transformer decoder-only em PyTorch, com 8 camadas e cerca de 25 milhões de parâmetros. O pré-treino usou 1,5 bilhão de caracteres da Wikipédia em português e levou umas 6 horas numa RTX 4060 Ti. Depois veio o ajuste fino com o dataset Canarim, cerca de 143 mil pares de pergunta e resposta, mais diálogos que gerei por script.
+
+Os 8 GB de memória da placa foram o limite o tempo todo. Com bfloat16 e acumulação de gradiente, consegui testar até uma versão de 126 milhões de parâmetros.
+
+O chat roda em Flask. Contas, conversões, datas e sorteios são resolvidos por código comum, e a interface avisa quando foi uma ferramenta que respondeu. Também tem busca na web, que mostra as fontes. Treino e chat ficam em contêineres Docker separados, com testes em pytest e CI no GitHub Actions.
 
 ## Resultados
 
-Avaliei com 85 perguntas fixas em quatro categorias. A melhor versão acerta 69% no total: 100% nas perguntas do treino, 72% em paráfrases, 56% em conhecimento vindo do pré-treino e 47% nas que dependem do histórico da conversa. Comparei as versões com teste de McNemar, porque nem toda diferença de acerto é real. A v4 não acerta mais que a v3 (p = 0,45), mas termina as respostas sozinha: as que estouravam o limite caíram de 10 para 2.
+Para comparar as versões, montei um teste fixo com 85 perguntas. A melhor acerta 69% delas. Vai bem no que viu no treino e em perguntas reescritas com outras palavras, mas tropeça quando precisa lembrar de algo dito antes na conversa: aí o acerto cai para 47%.
+
+## Converse com a IA
+
+<DemoIA status="Em breve">O modelo vai rodar aqui, para você conversar com ele direto no site.</DemoIA>
 
 ## O que aprendi
 
-Um modelo pequeno imita o formato de uma conta, mas não calcula. Por isso as contas ficaram com a calculadora determinística, e o modelo cuida só da conversa.
+Um modelo desse tamanho imita o formato de uma conta, mas não sabe calcular. Por isso as contas ficaram com a calculadora, e o modelo cuida só da conversa.

@@ -40,7 +40,7 @@ export default async function ProjetoPage({ params }: PageProps<"/[lang]/projeto
           <p className="mt-10 text-sm text-suave">
             {t.areas[metadata.area as keyof typeof t.areas]}, {metadata.data.slice(0, 4)}
           </p>
-          <h1 className="mt-3 font-pixel text-5xl leading-[1.05] sm:text-7xl">{metadata.titulo}</h1>
+          <h1 className="mt-3 break-words font-pixel text-[clamp(1.75rem,9vw,3rem)] leading-[1.05] sm:text-6xl md:text-7xl">{metadata.titulo}</h1>
           <p className="mt-6 max-w-[60ch] text-lg leading-relaxed">{metadata.resumo}</p>
           <div className="mt-8 flex flex-wrap items-center gap-3">
             {metadata.repo ? (

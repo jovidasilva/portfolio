@@ -1,22 +1,24 @@
 export const metadata = {
   titulo: "Oxyrcuits",
-  resumo: "Montador e simulador de circuitos em placa perfurada, protoboard, Arduino e ESP32.",
+  resumo: "Um simulador de circuitos no estilo do Tinkercad, para montar e testar projetos em protoboard, placa perfurada e Arduino.",
   area: "Web",
-  tecnologias: ["HTML", "CSS", "JavaScript"],
-  icones: ["html", "css", "javascript"],
+  tecnologias: ["TypeScript", "Vite", "SVG", "PWA", "Vitest", "Playwright"],
+  icones: ["typescript", "vite", "html", "css"],
   data: "2026-09-30",
-  repo: "oxyrcuits",
+  repo: "Oxyrcuits",
   destaque: true,
 };
 
-## O problema
-
-Escreva aqui por que o projeto existe.
+O Oxyrcuits é basicamente um Tinkercad que fiz para entender e projetar circuitos melhor, tanto para estudo quanto para integração direta com IA. Você monta o circuito em protoboard, placa perfurada, veroboard ou Arduino/ESP32, liga as peças e vê como ele se comporta antes de soldar qualquer coisa. Dá para usar direto no navegador: [jovidasilva.github.io/Oxyrcuits](https://jovidasilva.github.io/Oxyrcuits/).
 
 ## Como funciona
 
-Explique a solução. Pra colocar imagens, salve o arquivo em `public/projetos/` e use `![Descrição](/projetos/arquivo.png)`.
+A simulação resolve o circuito de verdade. Ele vira um sistema de equações pela análise nodal modificada, resolvido pelo método de Newton-Raphson, e é isso que permite simular peças como diodos, transistores, reguladores, relés e PWM. Também tem um interpretador de código Arduino, que lê, verifica e executa o sketch.
 
-## O que aprendi
+O app também revisa a montagem: encontra as ligações elétricas, os pontos de solda e as trilhas que se cruzam, e aponta erros de projeto. Os projetos ficam salvos no navegador, funcionam offline e podem ser exportados em JSON. Como é um PWA, dá para instalar no computador ou no celular.
 
-O que deu errado, o que você faria diferente.
+A simulação e o interpretador têm testes com Vitest, o fluxo de salvar e abrir projetos é testado com Playwright, e cada push publica uma versão nova no GitHub Pages.
+
+## Próximos passos
+
+Tipar o código módulo por módulo, já que ainda há arquivos sem checagem de tipos, levar a simulação para um Web Worker e, mais para frente, emular o microcontrolador de verdade com o avr8js e usar o ngspice em WebAssembly.

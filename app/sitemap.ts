@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { paginas } from "@/components/Header";
-import { getArtigos, getProjetos } from "@/lib/conteudo";
+import { getProjetos } from "@/lib/conteudo";
 
 const site = "https://jovidasilva.com.br";
 
@@ -12,10 +12,8 @@ function entrada(caminho: string, lastModified?: string): MetadataRoute.Sitemap 
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const projetos = await getProjetos("pt");
-  const artigos = await getArtigos("pt");
   return [
     ...["", ...paginas.map((pagina) => `/${pagina}`)].flatMap((caminho) => entrada(caminho)),
     ...projetos.flatMap((projeto) => entrada(`/projetos/${projeto.slug}`, projeto.data)),
-    ...artigos.flatMap((artigo) => entrada(`/artigos/${artigo.slug}`, artigo.data)),
   ];
 }

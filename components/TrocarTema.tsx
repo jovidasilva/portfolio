@@ -1,18 +1,20 @@
 "use client";
 
-import { useSyncExternalStore } from "react";
+import { useLayoutEffect, useSyncExternalStore } from "react";
 
 type Tema = "claro" | "escuro";
 const escuroDoSistema = "(prefers-color-scheme: dark)";
 
-// Aplica o tema salvo assim que este arquivo carrega, antes do React hidratar a página.
-// shortcut: quem escolheu um tema diferente do sistema pode ver um piscar ao recarregar; um script bloqueante no <head> evitaria, mas o React 19 reclama dele
-if (typeof window !== "undefined") {
+function aplicarSalvo() {
   try {
     const salvo = localStorage.getItem("tema");
     if (salvo === "claro" || salvo === "escuro") document.documentElement.dataset.tema = salvo;
   } catch {}
 }
+
+// Aplica o tema salvo assim que este arquivo carrega, antes do React hidratar a página.
+// shortcut: quem escolheu um tema diferente do sistema pode ver um piscar ao recarregar; um script bloqueante no <head> evitaria, mas o React 19 reclama dele
+if (typeof window !== "undefined") aplicarSalvo();
 
 function lerTema(): Tema {
   const salvo = document.documentElement.dataset.tema;
@@ -33,6 +35,8 @@ function assinar(avisar: () => void) {
 export default function TrocarTema({ rotulos }: { rotulos: { claro: string; escuro: string } }) {
   // No servidor o tema é desconhecido; o botão só ganha ícone depois de montar
   const tema = useSyncExternalStore(assinar, lerTema, () => null);
+  // Trocar de idioma remonta o layout raiz, e o React apaga os atributos do <html>; reaplica o tema antes de a tela pintar
+  useLayoutEffect(aplicarSalvo, []);
 
   function trocar() {
     const novo: Tema = lerTema() === "escuro" ? "claro" : "escuro";

@@ -1,6 +1,6 @@
 export const metadata = {
   titulo: "Generative AI from Scratch",
-  resumo: "A Portuguese chatbot trained from scratch: my own BPE tokenizer, a Transformer in PyTorch, Wikipedia pre-training and fine-tuning.",
+  resumo: "A Portuguese chatbot I trained from scratch, from the tokenizer to fine-tuning, on a home GPU.",
   area: "IA",
   tecnologias: ["Python", "PyTorch", "Flask", "Docker", "GitHub Actions"],
   icones: ["python", "pytorch", "flask", "docker"],
@@ -8,24 +8,26 @@ export const metadata = {
   destaque: true,
 };
 
-## The idea
+I wanted to understand how a language model works on the inside, and the way I found was to build one. No pre-trained model and no paid API. The tokenizer, the Transformer, the training and the chat interface are all part of the project itself.
 
-Understand a language model from the inside by building one: no pre-trained models and no paid AI APIs. From the tokenizer to the chat interface, everything was implemented in the project and trained on a home GPU.
+## How I built it
 
-## How it works
+I started with the tokenizer, a BPE with 16,000 tokens. The first version recounted every pair on each step and was far too slow, so I rewrote the counting to be incremental.
 
-- **My own BPE tokenizer**, with 16k tokens. I rewrote the pair counting to be incremental, which took tokenizer training off O(vocabulary × corpus).
-- **Decoder-only Transformer** implemented by hand in PyTorch: 8 layers, d_model 512, about 25 million parameters.
-- **Pre-training** on 1.5 billion characters of Portuguese Wikipedia (411 million tokens), about 6 hours on an RTX 4060 Ti.
-- **Fine-tuning (SFT)** with the Canarim dataset (~143k question-answer pairs) and script-generated dialogues, with the loss computed only on the answers.
-- **Training:** warmup with cosine decay, gradient clipping, bfloat16, early stopping on validation loss, and gradient accumulation so a 126-million-parameter experiment fits in 8 GB of VRAM.
-- **Tools in the chat:** math, conversions, dates and random draws are answered by deterministic code, and the interface shows which tool answered. Web search works through scraping and shows its sources.
-- **Infrastructure:** separate Docker setups for training (GPU) and chat (CPU), pytest tests and CI on GitHub Actions.
+The model is a decoder-only Transformer in PyTorch, with 8 layers and about 25 million parameters. Pre-training used 1.5 billion characters of Portuguese Wikipedia and took around 6 hours on an RTX 4060 Ti. Then came fine-tuning on the Canarim dataset, about 143,000 question and answer pairs, plus dialogues I generated with a script.
+
+The card's 8 GB of memory was the limit the whole time. With bfloat16 and gradient accumulation, I managed to test a version with up to 126 million parameters.
+
+The chat runs on Flask. Math, conversions, dates and random draws are handled by regular code, and the interface shows when a tool gave the answer. There's also web search, which shows its sources. Training and chat live in separate Docker containers, with pytest tests and CI on GitHub Actions.
 
 ## Results
 
-I evaluated it with 85 fixed questions in four categories. The best version gets 69% overall: 100% on training questions, 72% on paraphrases, 56% on knowledge coming from pre-training and 47% on questions that depend on the conversation history. I compared versions with McNemar's test, because not every accuracy difference is real. v4 is not more accurate than v3 (p = 0.45), but it ends its answers on its own: answers that ran past the length limit dropped from 10 to 2.
+To compare versions, I put together a fixed test of 85 questions. The best version gets 69% of them right. It does well on what it saw in training and on questions reworded in other ways, but struggles when it needs to remember something said earlier in the conversation: there, accuracy drops to 47%.
+
+## Talk to the AI
+
+<DemoIA status="Coming soon">The model will run here, so you can chat with it right on the site.</DemoIA>
 
 ## What I learned
 
-A small model imitates the format of a calculation but doesn't actually calculate. That's why math went to a deterministic calculator, and the model only handles the conversation.
+A model this size imitates what a calculation looks like, but it can't actually calculate. So math stays with the calculator, and the model only handles the conversation.

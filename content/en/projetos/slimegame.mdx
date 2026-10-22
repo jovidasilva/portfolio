@@ -2,27 +2,22 @@ export const metadata = {
   titulo: "Slimegame",
   resumo: "A 2D metroidvania in Godot: a slime that absorbs enemies' forms and abilities to explore two worlds.",
   area: "Jogos",
-  tecnologias: ["Godot 4", "GDScript", "Aseprite", "Python"],
-  icones: ["godot", "python"],
+  tecnologias: ["Godot 4", "GDScript", "Aseprite"],
+  icones: ["godot"],
   data: "2026-10-01",
   destaque: true,
 };
 
-## The game
+Slimegame is a 2D metroidvania I'm making in Godot, inspired by Hollow Knight, Silksong and Blasphemous, with souls-like combat.
 
-You play as **Gota**, a slime that gained consciousness after absorbing a Fragment of a fallen god. She explores two connected worlds, **Alterra** (the surface) and **the Depths** (the underground abyss), and progress comes from abilities stolen from enemies, not from keys. The inspirations are Hollow Knight, Silksong and Blasphemous, with souls-like combat.
+The story is still in development, but for now the idea is this: you play as Gota, a slime that became conscious after absorbing the fragment of a fallen god. She explores two connected worlds, the surface and the underground, and progresses by stealing her enemies' abilities.
 
-## How it works
+## What's in the game so far
 
-- **Component-based player:** movement, dash, combat, visuals, collision, abilities and forms are separate modules sharing a single state.
-- **Forms:** Slime, Human and Knight, each with its own jump, its own relationship with walls and water, and its own attack.
-- **Combat:** combos with per-hit timing and hitboxes, a guard that wears down, a 0.3 s parry, red attacks that can't be blocked, hit-stop and camera shake on heavy hits.
-- **Blight:** an infestation that grows during encounters, strengthens your attacks and comes at a price; you can purge it in a single area attack.
-- **Enemies:** bat, golem (light, heavy and flying), grob, wolf, spider and others, each with its own AI.
-- **World and saving:** room transitions, checkpoints, hazard zones, currency that stays where you died, and saved progress.
+Gota has three forms, Slime, Human and Knight, and each one jumps, deals with walls and water and attacks in its own way. Combat has timing-based combos, a guard that wears down, parries and red attacks that can't be blocked, plus a short hit-stop and camera shake on heavy hits.
 
-The art is hand-drawn in Aseprite, and a Python script builds the HUD sprite sheets from the source files.
+During fights the Blight grows, an infestation that makes attacks stronger but comes at a price, and that can be purged with an area attack. There are already several enemies, like bats, golems, grobs, wolves and spiders, each with its own behavior. The world has room transitions, checkpoints, hazard zones and saved progress, and when Gota dies her coins stay where she fell.
 
-## Organization
+## How I make it
 
-Over 180 commits made through branches and pull requests, 35 automated tests for the mechanics, and a Game Design Document kept up to date with every change.
+I draw all the art by hand in Aseprite. In the code, each part of the character, like movement, combat, abilities and forms, is a separate module, which lets me change one without breaking the others. The core mechanics have automated tests, and I keep a game design document updated with every change.

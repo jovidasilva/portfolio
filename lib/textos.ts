@@ -2,10 +2,18 @@ import type { Idioma } from "./idioma";
 
 const linkedin = "https://www.linkedin.com/in/jo%C3%A3o-victor-da-silva-alves-a7ba12300/";
 
+// Página de contato e rodapé; "icone" é um nome de components/Icone.tsx
+export const contatos = [
+  { icone: "email", rotulo: "E-mail", href: "mailto:jvdasilva25@gmail.com", usuario: "jvdasilva25@gmail.com" },
+  { icone: "linkedin", rotulo: "LinkedIn", href: linkedin, usuario: "João Victor da Silva Alves" },
+  { icone: "github", rotulo: "GitHub", href: "https://github.com/jovidasilva", usuario: "@jovidasilva" },
+  { icone: "instagram", rotulo: "Instagram", href: "https://www.instagram.com/_joaovicsa/", usuario: "@_joaovicsa" },
+] as const;
+
 const pt = {
   html: "pt-BR",
   titulo: "João Victor da Silva Alves",
-  descricao: "Estudante de Engenharia da Computação na Universidade Ceuma. Aprendo construindo: projetos de web, dados, IA e jogos.",
+  descricao: "Estudante de Engenharia da Computação na Universidade Ceuma, com projetos de web, IA, dados, hardware e jogos.",
   curriculo: { href: "/curriculo.pdf", rotulo: "Baixar currículo" },
   linkedin,
   pularConteudo: "Pular para o conteúdo",
@@ -18,17 +26,17 @@ const pt = {
     manchete: "Aprendo construindo",
     ola: "Olá!",
     texto:
-      "Eu sou o João Victor, estudante do último ano de Engenharia da Computação na Universidade Ceuma, em São Luís. Quando quero entender alguma coisa, eu construo: cada projeto deste portfólio começou com algo que eu ainda não sabia fazer.",
+      "Sou o João Victor, estudante do último ano de Engenharia da Computação na Universidade Ceuma, em São Luís. Aqui reuni meus projetos, os artigos que publiquei e as tecnologias com que trabalho.",
     resumo:
-      "Dedicação e vontade de aprender são o que me movem. Gosto de entender o porquê das coisas, não tenho medo de começar pelo que ainda não sei e só sossego quando o que construí funciona de verdade.",
+      "Fui bolsista de iniciação científica e tenho três artigos publicados. Meu foco é desenvolvimento de software, e meus projetos vão de sistemas web a IA, dados, hardware e jogos.",
     paragrafos: [
-      "Sou o João Victor, estudante do último ano de Engenharia da Computação na Universidade Ceuma, em São Luís, com ênfase em Desenvolvimento de Software. Hoje também faço estágio na área.",
-      "Aprendo melhor fazendo. Quando um assunto me chama atenção, eu não paro na teoria: abro o editor, tento construir algo com ele, erro, volto para a documentação e tento de novo, até entender o que está acontecendo por baixo.",
-      "Meu foco é o desenvolvimento de software. Também gosto de entender o hardware em que tudo isso roda e estou aprendendo o suficiente para não travar quando um projeto precisa dele.",
-      "Procuro um estágio ou uma vaga de desenvolvedor júnior/trainee em que eu possa aprender com um time experiente e contribuir desde o primeiro dia.",
+      "Sou o João Victor, estudante do último ano de Engenharia da Computação na Universidade Ceuma, em São Luís, com ênfase em Desenvolvimento de Software.",
+      "Aprendo melhor construindo. Foi assim que treinei um modelo de linguagem do zero, montei um simulador de circuitos e comecei a fazer um jogo em Godot.",
+      "Meu foco é software, mas também estudo hardware, porque vários dos meus projetos juntam os dois, como a luva para Parkinson do estágio.",
+      "Na universidade, fui bolsista de iniciação científica e publiquei três artigos: um sobre o INTERMED, sistema web para internatos médicos, e dois sobre saúde digital.",
+      "Procuro vaga de estágio, júnior ou trainee em desenvolvimento de software.",
     ],
     local: "São Luís, MA",
-    procura: "Procuro estágio ou vaga de desenvolvedor júnior/trainee.",
     rotulos: { local: "Onde estou", formacao: "Formação", idiomas: "Idiomas" },
   },
   painel: {
@@ -47,7 +55,6 @@ const pt = {
   conhecimento: {
     titulo: "Conhecimento",
     dica: "Passe o mouse ou toque em um ícone para ver o que é cada tecnologia e para que ela serve.",
-    extras: "Também uso NumPy, Pandas e Matplotlib para análise de dados, e o Aseprite para pixel art.",
     grupos: { linguagens: "Linguagens", web: "Web", dados: "Dados e IA", design: "Design e produtividade", ferramentas: "Ferramentas" },
     skills: {
       typescript: "Uma versão do JavaScript com tipos. O editor aponta erros antes de o código rodar, o que deixa projetos grandes mais seguros de mudar. Hoje é o padrão em aplicações web, no front-end e no back-end.",
@@ -95,14 +102,14 @@ const pt = {
         texto: "Ênfase em Desenvolvimento de Software. Formatura prevista para dezembro de 2026.",
       },
       {
-        periodo: "Na graduação",
-        titulo: "Pesquisa em saúde digital",
-        texto: "Dois artigos publicados: segmentação de ECG para detectar arritmias, com 99,3% de acurácia na detecção do QRS, e um dispositivo com IA (CNN e LSTM) para apoiar pessoas com TEA.",
+        periodo: "2025 – 2026",
+        titulo: "Iniciação científica (PIBIC), Universidade Ceuma",
+        texto: "Bolsista no projeto de um vestível com IA para apoiar pessoas com TEA. Minha parte foi o software que analisa os sinais. No período, publiquei três artigos: sobre esse dispositivo, sobre análise de eletrocardiograma e sobre o INTERMED.",
       },
       {
         periodo: "2020 – 2021",
         titulo: "Operador de loja, Tenda Atacado",
-        texto: "Atendimento, caixa e inventário em Itatiba (SP). Onde aprendi a trabalhar em equipe com processo e prazo.",
+        texto: "Atendimento, caixa e inventário em Itatiba (SP).",
       },
     ],
     idiomas: "Português nativo e inglês avançado (C1).",
@@ -122,12 +129,12 @@ const pt = {
   },
   areas: { Web: "Web", IA: "IA", Hardware: "Hardware", Jogos: "Jogos", Dados: "Dados" },
   paginas: {
-    sobre: "Um pouco da minha história, de como eu aprendo e do que procuro agora.",
-    conhecimento: "Linguagens, frameworks e ferramentas que fazem parte do meu dia a dia, com o que cada uma é e para que serve.",
-    experiencias: "Do primeiro emprego à pesquisa publicada e ao estágio: o caminho até aqui.",
-    projetos: "Projetos que construí para aprender algo novo. Cada um conta o problema, como resolvi e o que aprendi no caminho.",
-    certificados: "Cursos e certificações que completei para aprofundar o que estudo.",
-    artigos: "Textos sobre o que aprendi construindo meus projetos, com os erros e os acertos do caminho.",
+    sobre: "Quem sou, o que estudo e o que procuro.",
+    conhecimento: "As tecnologias que uso e para que serve cada uma.",
+    experiencias: "Trabalho, formação e pesquisa.",
+    projetos: "Projetos pessoais, acadêmicos e do estágio. Em cada um conto o que é, como fiz e em que pé está.",
+    certificados: "Cursos que fiz e trabalhos que apresentei em eventos científicos.",
+    artigos: "Artigos científicos que publiquei, com um resumo de cada um.",
     contato: "Para vagas, projetos ou só para conversar sobre algo que você viu aqui.",
   },
   inicio: {
@@ -144,14 +151,13 @@ const pt = {
   certificados: {
     vazio: "Os certificados vão aparecer aqui em breve. Enquanto isso, meus cursos estão no LinkedIn.",
     ver: "Ver certificado",
-    emitidoPor: "Emitido por",
   },
-  artigos: { titulo: "Artigos", voltar: "Artigos" },
+  artigos: { titulo: "Artigos", ler: "Ler o artigo", verProjeto: "Ver o projeto" },
   contato: {
     titulo: "Contato",
     chamada: "Vamos conversar?",
     texto: "Para vagas, projetos ou só para conversar sobre algo que você viu aqui. Respondo pelo e-mail.",
-    curriculo: "Currículo em PDF",
+    curriculo: "Currículo",
     rodape: "Feito por mim com Next.js, MDX e Tailwind.",
     codigo: "Ver o código do site",
   },
@@ -162,7 +168,7 @@ export type Textos = typeof pt;
 const en: Textos = {
   html: "en",
   titulo: "João Victor da Silva Alves",
-  descricao: "Computer Engineering student at Universidade Ceuma, Brazil. I learn by building: web, data, AI and game projects.",
+  descricao: "Computer Engineering student at Universidade Ceuma, Brazil, with projects in web, AI, data, hardware and games.",
   curriculo: { href: "/resume.pdf", rotulo: "Download resume" },
   linkedin,
   pularConteudo: "Skip to content",
@@ -175,17 +181,17 @@ const en: Textos = {
     manchete: "I learn by building",
     ola: "Hi!",
     texto:
-      "I'm João Victor, a final-year Computer Engineering student at Universidade Ceuma in São Luís, Brazil. When I want to understand something, I build it: every project in this portfolio started with something I didn't know how to do yet.",
+      "I'm João Victor, a final-year Computer Engineering student at Universidade Ceuma in São Luís, Brazil. This is where I keep my projects, the papers I've published and the technologies I work with.",
     resumo:
-      "Dedication and a drive to learn are what move me. I like understanding why things work, I'm not afraid to start from what I don't know yet, and I don't rest until what I built actually works.",
+      "I was an undergraduate research fellow and I've published three papers. My focus is software development, and my projects range from web systems to AI, data, hardware and games.",
     paragrafos: [
-      "I'm João Victor, a final-year Computer Engineering student at Universidade Ceuma in São Luís, Brazil, on the Software Development track. I'm also currently an intern in the field.",
-      "I learn best by doing. When a subject catches my attention, I don't stop at the theory: I open the editor, try to build something with it, get it wrong, go back to the docs and try again, until I understand what's happening underneath.",
-      "My focus is software development. I also enjoy understanding the hardware all of it runs on, and I'm learning enough not to get stuck when a project needs it.",
-      "I'm looking for an internship or a junior/trainee developer role where I can learn from an experienced team and contribute from day one.",
+      "I'm João Victor, a final-year Computer Engineering student at Universidade Ceuma in São Luís, Brazil, on the Software Development track.",
+      "I learn best by building. That's how I trained a language model from scratch, built a circuit simulator and started making a game in Godot.",
+      "My focus is software, but I also study hardware, since several of my projects combine the two, like the Parkinson's glove from my internship.",
+      "At university I was an undergraduate research fellow and published three papers: one on INTERMED, a web system for medical internships, and two on digital health.",
+      "I'm looking for an internship, junior or trainee role in software development.",
     ],
     local: "São Luís, Brazil",
-    procura: "Looking for an internship or a junior/trainee developer role.",
     rotulos: { local: "Based in", formacao: "Education", idiomas: "Languages" },
   },
   painel: {
@@ -204,7 +210,6 @@ const en: Textos = {
   conhecimento: {
     titulo: "Skills",
     dica: "Hover over or tap an icon to see what each technology is and what it's for.",
-    extras: "I also use NumPy, Pandas and Matplotlib for data analysis, and Aseprite for pixel art.",
     grupos: { linguagens: "Languages", web: "Web", dados: "Data and AI", design: "Design and productivity", ferramentas: "Tools" },
     skills: {
       typescript: "JavaScript with types. The editor points out errors before the code runs, which makes large projects safer to change. It's now the standard for web apps, on both the front end and the back end.",
@@ -252,14 +257,14 @@ const en: Textos = {
         texto: "Software Development track. Expected to graduate in December 2026.",
       },
       {
-        periodo: "During university",
-        titulo: "Digital health research",
-        texto: "Two published papers: ECG segmentation for arrhythmia detection, with 99.3% QRS detection accuracy, and an AI-powered device (CNN and LSTM) to support people with ASD.",
+        periodo: "2025 – 2026",
+        titulo: "Undergraduate research (PIBIC), Universidade Ceuma",
+        texto: "Research fellow on a project for an AI-powered wearable to support people with ASD. My part was the software that analyzes the signals. In that period I published three papers: on this device, on electrocardiogram analysis and on INTERMED.",
       },
       {
         periodo: "2020 – 2021",
         titulo: "Store associate, Tenda Atacado",
-        texto: "Customer service, cash register and inventory in Itatiba, Brazil. Where I learned teamwork with process and deadlines.",
+        texto: "Customer service, cash register and inventory in Itatiba, Brazil.",
       },
     ],
     idiomas: "Native Portuguese and advanced English (C1).",
@@ -279,12 +284,12 @@ const en: Textos = {
   },
   areas: { Web: "Web", IA: "AI", Hardware: "Hardware", Jogos: "Games", Dados: "Data" },
   paginas: {
-    sobre: "A bit of my story, how I learn and what I'm looking for now.",
-    conhecimento: "Languages, frameworks and tools that are part of my day to day, with what each one is and what it's for.",
-    experiencias: "From my first job to published research and my internship: the road so far.",
-    projetos: "Projects I built to learn something new. Each one tells the problem, how I solved it and what I learned along the way.",
-    certificados: "Courses and certifications I completed to go deeper into what I study.",
-    artigos: "Writing about what I learned building my projects, mistakes and wins included.",
+    sobre: "Who I am, what I study and what I'm looking for.",
+    conhecimento: "The technologies I use and what each one is for.",
+    experiencias: "Work, education and research.",
+    projetos: "Personal, academic and internship projects. For each one I explain what it is, how I built it and where it stands.",
+    certificados: "Courses I've taken and work I've presented at scientific events.",
+    artigos: "Scientific papers I've published, with a short summary of each.",
     contato: "For jobs, projects, or just to talk about something you saw here.",
   },
   inicio: {
@@ -301,14 +306,13 @@ const en: Textos = {
   certificados: {
     vazio: "Certificates will show up here soon. Meanwhile, my courses are listed on LinkedIn.",
     ver: "View certificate",
-    emitidoPor: "Issued by",
   },
-  artigos: { titulo: "Articles", voltar: "Articles" },
+  artigos: { titulo: "Articles", ler: "Read the paper", verProjeto: "See the project" },
   contato: {
     titulo: "Contact",
-    chamada: "Let's talk?",
+    chamada: "Let's talk",
     texto: "For jobs, projects, or just to talk about something you saw here. I reply by email.",
-    curriculo: "Resume (PDF)",
+    curriculo: "Resume",
     rodape: "Built by me with Next.js, MDX and Tailwind.",
     codigo: "View the site's source",
   },

@@ -1,0 +1,24 @@
+export const metadata = {
+  titulo: "Monitoramento de TEA com IA",
+  resumo: "Minha pesquisa de iniciação científica: uma IA que lê os sinais de um vestível para identificar estresse e crises em pessoas com autismo.",
+  area: "IA",
+  tecnologias: ["Python", "TensorFlow", "PyTorch", "Pandas", "NumPy", "CNN", "LSTM"],
+  icones: ["python", "tensorflow", "pytorch"],
+  data: "2026-05-22",
+};
+
+*Pesquisa de iniciação científica (PIBIC 2025/2026) na Universidade Ceuma, com bolsa, orientada pelo prof. Jonathan Araujo Queiroz.*
+
+Pessoas com Transtorno do Espectro Autista (TEA) podem ter crises de ansiedade e sobrecarga sensorial que começam quase sem aviso. A pesquisa propõe um vestível de baixo custo que mede sinais como batimentos, temperatura e condutância da pele, e uma IA que reconhece nesses sinais quando uma crise está se formando, para que família e cuidadores possam agir antes.
+
+## O que eu fiz
+
+O projeto do professor é o dispositivo. O meu plano de trabalho foi o software de IA que analisa os dados dele.
+
+Dados clínicos reais são difíceis de conseguir, principalmente por questões éticas, então trabalhei com bases públicas de sinais fisiológicos e com dados simulados. Em Python, montei o tratamento dos sinais: normalização, filtros contra ruído, balanceamento das classes e divisão em janelas de tempo. Para os modelos, escolhi uma rede convolucional (CNN) para achar padrões nos sinais e uma LSTM para acompanhar como eles mudam no tempo, comparando as duas com SVM e Random Forest.
+
+## Até onde chegou
+
+O tratamento dos dados ficou pronto e a arquitetura se mostrou viável, mas os modelos ainda não foram validados. Falta testá-los com dados reais e fazê-los caber num hardware com pouco processamento, já que a ideia é rodar no próprio dispositivo.
+
+A pesquisa virou o artigo [Dispositivo eletrônico reconfigurável baseado em inteligência artificial para suporte à saúde de indivíduos com transtorno do espectro autista](https://www.even3.com.br/anais/iii-seminario-internacional-educacao-empreendedorismo-gestao-projetos/1423208/), apresentado no III Seminário Internacional de Educação, Empreendedorismo e Gestão de Projetos (2025), e um resumo expandido no IV SEMICTI da Universidade Ceuma (2026).

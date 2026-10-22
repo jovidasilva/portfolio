@@ -5,7 +5,8 @@ import Cubos from "@/components/Cubos";
 import Resumo from "@/components/Resumo";
 import Seta from "@/components/Seta";
 import { certificados } from "@/content/certificados";
-import { formatarData, getArtigos, getProjetos } from "@/lib/conteudo";
+import { publicacoes } from "@/content/publicacoes";
+import { formatarData, getProjetos } from "@/lib/conteudo";
 import { grupos } from "@/lib/skills";
 import { textos } from "@/lib/textos";
 import { idiomaDa } from "./pagina";
@@ -14,7 +15,6 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
   const lang = await idiomaDa(params);
   const t = textos[lang];
   const destaques = (await getProjetos(lang)).filter((projeto) => projeto.destaque);
-  const artigos = (await getArtigos(lang)).slice(0, 2);
   const ultimosCertificados = [...certificados].sort((a, b) => b.data.localeCompare(a.data)).slice(0, 3);
   const icones = grupos.flatMap(([, itens]) => itens);
   const href = (pagina: string) => `/${lang}/${pagina}`;
@@ -25,7 +25,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         <div className="mx-auto grid max-w-6xl items-center gap-12 px-5 py-16 sm:px-8 sm:py-24 lg:grid-cols-[1.3fr_1fr]">
           <div>
             <p className="text-suave">{t.titulo}</p>
-            <h1 id="manchete" className="mt-5 font-pixel text-5xl leading-[1.05] sm:text-7xl">
+            <h1 id="manchete" className="mt-5 break-words font-pixel text-[clamp(2rem,10vw,3rem)] leading-[1.05] sm:text-6xl md:text-7xl">
               {t.sobre.manchete}
             </h1>
             <p className="mt-8 max-w-[56ch] text-lg leading-relaxed">
@@ -40,7 +40,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
               </a>
             </div>
           </div>
-          <div className="flex justify-center">
+          <div className="hidden justify-center lg:flex">
             <Cubos />
           </div>
         </div>
@@ -96,12 +96,12 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         ) : (
           <ul className="grid gap-5 sm:grid-cols-3">
             {ultimosCertificados.map((certificado) => (
-              <li key={certificado.titulo + certificado.data} className="cartao p-6">
+              <li key={certificado.arquivo} className="cartao p-6">
                 <time dateTime={certificado.data} className="text-sm text-suave">
                   {formatarData(certificado.data, lang)}
                 </time>
-                <h3 className="mt-2 font-semibold">{certificado.titulo}</h3>
-                <p className="mt-1 text-sm text-suave">{certificado.emissor}</p>
+                <h3 className="mt-2 font-semibold">{certificado[lang].titulo}</h3>
+                <p className="mt-1 text-sm leading-relaxed text-suave">{certificado[lang].descricao}</p>
               </li>
             ))}
           </ul>
@@ -110,17 +110,17 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
 
       <Resumo pagina="artigos" titulo={t.nav.artigos} href={href("artigos")} link={t.inicio.links.artigos}>
         <ul className="grid gap-5 md:grid-cols-2">
-          {artigos.map((artigo) => (
-            <li key={artigo.slug} className="cartao relative p-6 hover:border-roxo">
-              <time dateTime={artigo.data} className="text-sm text-suave">
-                {formatarData(artigo.data, lang)}
-              </time>
-              <h3 className="mt-2 font-pixel text-lg">
-                <Link href={`/${lang}/artigos/${artigo.slug}`} className="after:absolute after:inset-0 after:rounded-[1.25rem]">
-                  {artigo.titulo}
-                </Link>
+          {publicacoes.slice(0, 2).map((publicacao) => (
+            <li key={publicacao.link} className="cartao relative p-6 hover:border-roxo">
+              <p className="text-sm text-suave">
+                {publicacao.veiculo}, {publicacao.ano}
+              </p>
+              <h3 className="mt-2 font-semibold leading-snug">
+                <a href={publicacao.link} className="after:absolute after:inset-0 after:rounded-[1.25rem]">
+                  {publicacao.titulo}
+                </a>
               </h3>
-              <p className="mt-2 text-sm text-suave">{artigo.resumo}</p>
+              <p className="mt-2 text-sm leading-relaxed text-suave">{publicacao.resumo[lang]}</p>
             </li>
           ))}
         </ul>
