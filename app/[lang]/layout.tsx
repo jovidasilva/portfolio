@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Silkscreen, Sora } from "next/font/google";
-import Header from "@/components/Header";
+import ChatNadia from "@/components/ChatNadia";
+import Header, { paginas } from "@/components/Header";
 import Rodape from "@/components/Rodape";
 import { ehIdioma, idiomas } from "@/lib/idioma";
-import { textos } from "@/lib/textos";
+import { getProjetos } from "@/lib/conteudo";
+import type { MapaSite } from "@/lib/nadia";
+import { contatos, textos } from "@/lib/textos";
 import "../globals.css";
 
 const sora = Sora({ variable: "--font-sora", subsets: ["latin"] });
@@ -30,6 +33,14 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
   const { lang } = await params;
   if (!ehIdioma(lang)) notFound();
   const t = textos[lang];
+  // O que a NADIA sabe do site: páginas, projetos e contatos, nos textos do idioma atual
+  const mapa: MapaSite = {
+    paginas: paginas.map((secao) => ({ secao, href: `/${lang}/${secao}`, rotulo: t.nav[secao], descricao: t.paginas[secao] })),
+    projetos: (await getProjetos(lang)).map((p) => ({ slug: p.slug, href: `/${lang}/projetos/${p.slug}`, titulo: p.titulo, resumo: p.resumo })),
+    contatos: contatos.map(({ rotulo, href, usuario }) => ({ rotulo, href, usuario })),
+    curriculo: t.curriculo,
+    sobre: t.sobre.texto,
+  };
 
   return (
     <html lang={t.html} className={`${sora.variable} ${silkscreen.variable} h-full antialiased`} suppressHydrationWarning>
@@ -42,6 +53,7 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
           {children}
         </main>
         <Rodape lang={lang} />
+        <ChatNadia lang={lang} mapa={mapa} />
       </body>
     </html>
   );

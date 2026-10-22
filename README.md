@@ -22,3 +22,14 @@ npm test
 ```
 
 Opcional: `GITHUB_TOKEN` (somente leitura) para o painel incluir os repositórios privados nos totais.
+
+## NADIA, o chat do site
+
+O ícone de chat no canto de todas as páginas é a NADIA, o modelo que treinei do zero ([IAgenerativa](https://github.com/jovidasilva/IAgenerativa)).
+Perguntas sobre o site (páginas, projetos, contato) são respondidas aqui mesmo, em `lib/nadia.ts`, e podem navegar entre as páginas.
+O resto vai para o servidor do modelo, definido em `NEXT_PUBLIC_NADIA_URL` (lida na hora do build). Sem essa variável, a NADIA só responde sobre o site.
+
+```bash
+# com o chat do IAgenerativa rodando (docker compose up -d), que já aceita localhost:3000:
+NEXT_PUBLIC_NADIA_URL=http://localhost:8080 npm run dev
+```

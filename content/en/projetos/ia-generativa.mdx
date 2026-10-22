@@ -1,5 +1,5 @@
 export const metadata = {
-  titulo: "Generative AI from Scratch",
+  titulo: "NADIA: generative AI from scratch",
   resumo: "A Portuguese chatbot I trained from scratch, from the tokenizer to fine-tuning, on a home GPU.",
   area: "IA",
   tecnologias: ["Python", "PyTorch", "Flask", "Docker", "GitHub Actions"],
@@ -8,26 +8,32 @@ export const metadata = {
   destaque: true,
 };
 
-I wanted to understand how a language model works on the inside, and the way I found was to build one. No pre-trained model and no paid API. The tokenizer, the Transformer, the training and the chat interface are all part of the project itself.
+I wanted to understand how a language model works on the inside, and the way I found was to build one. No pre-trained model and no paid API. The tokenizer, the Transformer, the training and the chat interface are all part of the project itself. The result is NADIA, which stands for Núcleo Autônomo de Diálogo Inteligente e Adaptável (Autonomous Core for Intelligent, Adaptive Dialogue).
 
 ## How I built it
 
 I started with the tokenizer, a BPE with 16,000 tokens. The first version recounted every pair on each step and was far too slow, so I rewrote the counting to be incremental.
 
-The model is a decoder-only Transformer in PyTorch, with 8 layers and about 25 million parameters. Pre-training used 1.5 billion characters of Portuguese Wikipedia and took around 6 hours on an RTX 4060 Ti. Then came fine-tuning on the Canarim dataset, about 143,000 question and answer pairs, plus dialogues I generated with a script.
+The model is a decoder-only Transformer in PyTorch. The first version had 8 layers and about 25 million parameters; NADIA has 16 layers and 126 million. Pre-training used 1.5 billion characters of Portuguese Wikipedia, on an RTX 4060 Ti. Then came fine-tuning on the Canarim dataset, about 143,000 question and answer pairs, plus dialogues I generated with a script.
 
-The card's 8 GB of memory was the limit the whole time. With bfloat16 and gradient accumulation, I managed to test a version with up to 126 million parameters.
+The card's 8 GB of memory was the limit the whole time. Bfloat16 and gradient accumulation are what made the 126-million version possible.
 
 The chat runs on Flask. Math, conversions, dates and random draws are handled by regular code, and the interface shows when a tool gave the answer. There's also web search, which shows its sources. Training and chat live in separate Docker containers, with pytest tests and CI on GitHub Actions.
 
 ## Results
 
-To compare versions, I put together a fixed test of 85 questions. The best version gets 69% of them right. It does well on what it saw in training and on questions reworded in other ways, but struggles when it needs to remember something said earlier in the conversation: there, accuracy drops to 47%.
+To compare versions, I built a fixed test of 85 questions and another of 40 questions that have no possible answer, about made-up people and places. With no filter, NADIA gets 66% of the 85 right, but invents an answer for almost all of the 40, in the same confident tone as the correct ones.
 
-## Talk to the AI
+The fix was to use the probability the model itself gives to each word it writes. Below 70% average confidence, NADIA says it doesn't know. With this filter, invented answers dropped from 37 to 5 out of 40, and precision rose from 46% to 68%, at the cost of answering fewer questions.
 
-<DemoIA status="Coming soon">The model will run here, so you can chat with it right on the site.</DemoIA>
+Two experiments didn't work, and went into the paper anyway. Going from 25 to 126 million parameters made the text much more fluent but barely changed accuracy: for its size, the bigger model saw too little data. And teaching "I don't know" with made-up names made things worse: the model memorized the shape of the questions and started denying real things, like the existence of Lisbon.
+
+## Talk to NADIA
+
+<DemoIA status="On this site" botao="Open the NADIA chat">She lives in the chat icon in the corner of every page. She answers about the site and takes you to pages right away; anything else goes to the model (Portuguese only), which shows how confident it is in each answer.</DemoIA>
 
 ## What I learned
 
 A model this size imitates what a calculation looks like, but it can't actually calculate. So math stays with the calculator, and the model only handles the conversation.
+
+It also can't tell when it doesn't know. But the probability it gives to its own words can, and that's what decides when NADIA answers.

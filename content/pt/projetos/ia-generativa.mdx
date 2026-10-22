@@ -1,5 +1,5 @@
 export const metadata = {
-  titulo: "IA Generativa do Zero",
+  titulo: "NADIA: IA generativa do zero",
   resumo: "Um chatbot em português que treinei do zero, do tokenizer ao ajuste fino, numa GPU de casa.",
   area: "IA",
   tecnologias: ["Python", "PyTorch", "Flask", "Docker", "GitHub Actions"],
@@ -8,26 +8,32 @@ export const metadata = {
   destaque: true,
 };
 
-Eu queria entender como um modelo de linguagem funciona por dentro, e o jeito que encontrei foi construir um. Não usei modelo pré-treinado nem API paga. Tokenizer, Transformer, treino e interface de chat são todos do próprio projeto.
+Eu queria entender como um modelo de linguagem funciona por dentro, e o jeito que encontrei foi construir um. Não usei modelo pré-treinado nem API paga. Tokenizer, Transformer, treino e interface de chat são todos do próprio projeto. O resultado é a NADIA, sigla de Núcleo Autônomo de Diálogo Inteligente e Adaptável.
 
 ## Como fiz
 
 Comecei pelo tokenizer, um BPE com 16 mil tokens. A primeira versão recontava todos os pares a cada passo e ficava lenta demais, então reescrevi a contagem para ser incremental.
 
-O modelo é um Transformer decoder-only em PyTorch, com 8 camadas e cerca de 25 milhões de parâmetros. O pré-treino usou 1,5 bilhão de caracteres da Wikipédia em português e levou umas 6 horas numa RTX 4060 Ti. Depois veio o ajuste fino com o dataset Canarim, cerca de 143 mil pares de pergunta e resposta, mais diálogos que gerei por script.
+O modelo é um Transformer decoder-only em PyTorch. A primeira versão tinha 8 camadas e cerca de 25 milhões de parâmetros; a NADIA tem 16 camadas e 126 milhões. O pré-treino usou 1,5 bilhão de caracteres da Wikipédia em português, numa RTX 4060 Ti. Depois veio o ajuste fino com o dataset Canarim, cerca de 143 mil pares de pergunta e resposta, mais diálogos que gerei por script.
 
-Os 8 GB de memória da placa foram o limite o tempo todo. Com bfloat16 e acumulação de gradiente, consegui testar até uma versão de 126 milhões de parâmetros.
+Os 8 GB de memória da placa foram o limite o tempo todo. Bfloat16 e acumulação de gradiente foram o que permitiu treinar a versão de 126 milhões.
 
 O chat roda em Flask. Contas, conversões, datas e sorteios são resolvidos por código comum, e a interface avisa quando foi uma ferramenta que respondeu. Também tem busca na web, que mostra as fontes. Treino e chat ficam em contêineres Docker separados, com testes em pytest e CI no GitHub Actions.
 
 ## Resultados
 
-Para comparar as versões, montei um teste fixo com 85 perguntas. A melhor acerta 69% delas. Vai bem no que viu no treino e em perguntas reescritas com outras palavras, mas tropeça quando precisa lembrar de algo dito antes na conversa: aí o acerto cai para 47%.
+Para comparar as versões, montei um teste fixo com 85 perguntas e outro com 40 perguntas sem resposta possível, sobre pessoas e lugares inventados. Sem nenhum filtro, a NADIA acerta 66% das 85, mas inventa resposta para quase todas as 40, com o mesmo tom confiante das respostas certas.
 
-## Converse com a IA
+A saída foi usar a probabilidade que o próprio modelo dá a cada palavra que escreve. Abaixo de 70% de confiança média, a NADIA diz que não sabe. Com esse filtro, as respostas inventadas caíram de 37 para 5 em 40, e a precisão subiu de 46% para 68%, em troca de responder menos perguntas.
 
-<DemoIA status="Em breve">O modelo vai rodar aqui, para você conversar com ele direto no site.</DemoIA>
+Dois testes não funcionaram, e entraram no artigo do mesmo jeito. Passar de 25 para 126 milhões de parâmetros deixou o texto bem mais fluente, mas quase não mudou os acertos: para o tamanho dele, o modelo maior viu poucos dados. E ensinar o "não sei" com exemplos de nomes inventados piorou tudo: o modelo decorou o formato das perguntas e passou a negar coisas reais, como a existência de Lisboa.
+
+## Converse com a NADIA
+
+<DemoIA status="No site" botao="Abrir o chat da NADIA">Ela fica no ícone de chat no canto da tela, em qualquer página. Responde sobre o site e te leva às páginas na hora; o resto vai para o modelo, que mostra a confiança de cada resposta.</DemoIA>
 
 ## O que aprendi
 
 Um modelo desse tamanho imita o formato de uma conta, mas não sabe calcular. Por isso as contas ficaram com a calculadora, e o modelo cuida só da conversa.
+
+Ele também não sabe dizer quando não sabe. Mas a probabilidade que ele dá às próprias palavras sabe, e é ela que decide quando a NADIA responde.
