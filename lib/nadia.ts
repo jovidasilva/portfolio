@@ -9,6 +9,7 @@ export type MapaSite = {
   paginas: { secao: string; href: string; rotulo: string; descricao: string }[];
   projetos: { slug: string; href: string; titulo: string; resumo: string }[];
   contatos: { rotulo: string; href: string; usuario: string }[];
+  artigos: { titulo: string; resumo: string; href: string; projeto?: string }[];
   curriculo: LinkNadia;
   sobre: string;
 };
@@ -40,7 +41,9 @@ const SECOES: Record<string, string[]> = {
 const PRIORIDADE = ["contato", "certificados", "artigos", "experiencias", "conhecimento", "projetos", "sobre"];
 // Assuntos que só fazem sentido sobre o site, mesmo numa frase longa
 const FORTES = ["contato", "certificados"];
-const CURRICULO = ["curriculo", "cv", "resume"];
+// "resume" é currículo em inglês, mas "resumir" em português ("resume o artigo sobre TEA")
+const CURRICULO = { pt: ["curriculo", "cv"], en: ["resume", "cv", "curriculum"] };
+const ARTIGO = ["artigos?", "publicac(?:ao|oes)", "papers?", "articles?", "publications?"];
 
 // Apelidos dos projetos, além do slug e do título
 const APELIDOS: Record<string, string[]> = {
@@ -62,22 +65,26 @@ const TEXTOS = {
   pt: {
     ola: "Olá! Sou a NADIA. Posso te mostrar os projetos, falar do João e te levar a qualquer página do site. Também converso sobre outros assuntos com o modelo que ele treinou do zero.",
     ajuda:
-      "Aqui no site, eu levo você às páginas (\"me leva aos projetos\"), conto sobre cada projeto (\"o que é o INTERMED?\") e passo os contatos do João. Para o resto, quem responde é o meu modelo de linguagem, treinado do zero, com ferramentas de cálculo, conversão e pesquisa. Pergunte \"quais são suas ferramentas?\" para ver todas.",
+      "Aqui no site, eu levo você às páginas (\"me leva aos projetos\"), conto sobre cada projeto e artigo (\"resume o artigo sobre TEA\") e passo os contatos do João. Também faço contas, digo a data e a hora e busco definições na Wikipédia. O resto vai para o meu modelo de linguagem, treinado do zero: perguntas curtas de conhecimento geral, em português. Não envio mensagens, não gero imagens nem textos longos e não vejo clima, cotações ou notícias.",
     abrindo: (rotulo: string) => `Abrindo ${rotulo}.`,
     projetos: "Estes são os projetos do João:",
     contato: "Você pode falar com o João por aqui. Ele responde pelo e-mail.",
+    contatoSemEnvio: "Eu não envio mensagens, mas você pode falar com o João direto por aqui. Ele responde pelo e-mail.",
     curriculo: "O currículo do João está neste PDF:",
     verProjeto: "Ver o projeto",
+    lerArtigo: "Ler o artigo",
   },
   en: {
     ola: "Hi! I'm NADIA. I can show you the projects, tell you about João and take you to any page of the site. I also chat about other topics with the model he trained from scratch (that part only speaks Portuguese).",
     ajuda:
-      "On this site, I take you to pages (\"take me to the projects\"), explain each project (\"what is INTERMED?\") and share João's contacts. Anything else goes to my language model, trained from scratch, which only speaks Portuguese.",
+      "On this site, I take you to pages (\"take me to the projects\"), explain each project and paper (\"summarize the paper on autism\") and share João's contacts. I also do math, tell the date and time and look up definitions on Portuguese Wikipedia. Anything else goes to my language model, trained from scratch, which only handles short general-knowledge questions in Portuguese. I don't send messages, generate images or long texts, or see weather, prices or news.",
     abrindo: (rotulo: string) => `Opening ${rotulo}.`,
     projetos: "These are João's projects:",
     contato: "You can reach João here. He replies by e-mail.",
+    contatoSemEnvio: "I can't send messages, but you can reach João directly here. He replies by e-mail.",
     curriculo: "João's resume is in this PDF:",
     verProjeto: "See the project",
+    lerArtigo: "Read the paper",
   },
 };
 
@@ -93,9 +100,26 @@ export function responderSobreOSite(mensagem: string, lang: Idioma, mapa: MapaSi
 
   const navegar = NAVEGAR.test(t);
 
-  if (tem(t, CURRICULO)) return { texto: tx.curriculo, links: [mapa.curriculo] };
+  const nomesDo = (slug: string) => {
+    const p = mapa.projetos.find((x) => x.slug === slug);
+    return [slug.replace(/-/g, " "), ...(p ? [normalizar(p.titulo)] : []), ...(APELIDOS[slug] ?? [])];
+  };
 
-  const projeto = mapa.projetos.find((p) => tem(t, [p.slug.replace(/-/g, " "), normalizar(p.titulo), ...(APELIDOS[p.slug] ?? [])]));
+  // Artigo de um assunto ("resume o artigo sobre TEA"): resumo publicado + link
+  if (tem(t, ARTIGO)) {
+    const artigo = mapa.artigos.find((a) => a.projeto && tem(t, nomesDo(a.projeto)));
+    if (artigo) {
+      const projeto = mapa.projetos.find((p) => p.slug === artigo.projeto);
+      return {
+        texto: `${artigo.titulo}\n\n${artigo.resumo}`,
+        links: [{ href: artigo.href, rotulo: tx.lerArtigo }, ...(projeto ? [{ href: projeto.href, rotulo: tx.verProjeto }] : [])],
+      };
+    }
+  }
+
+  if (tem(t, CURRICULO[lang])) return { texto: tx.curriculo, links: [mapa.curriculo] };
+
+  const projeto = mapa.projetos.find((p) => tem(t, nomesDo(p.slug)));
   if (projeto) {
     const link = { href: projeto.href, rotulo: projeto.titulo };
     return navegar
@@ -114,7 +138,7 @@ export function responderSobreOSite(mensagem: string, lang: Idioma, mapa: MapaSi
     if (pagina.secao === "projetos")
       return { texto: tx.projetos, links: [...mapa.projetos.map((p) => ({ href: p.href, rotulo: p.titulo })), link] };
     if (pagina.secao === "contato")
-      return { texto: tx.contato, links: [...mapa.contatos.map((c) => ({ href: c.href, rotulo: `${c.rotulo}: ${c.usuario}` })), link] };
+      return { texto: /\b(?:envi|mand|send)/.test(t) ? tx.contatoSemEnvio : tx.contato, links: [...mapa.contatos.map((c) => ({ href: c.href, rotulo: `${c.rotulo}: ${c.usuario}` })), link] };
     if (pagina.secao === "sobre") return { texto: mapa.sobre, links: [link] };
     return { texto: pagina.descricao, links: [link] };
   }

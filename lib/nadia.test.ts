@@ -12,8 +12,10 @@ const mapa: MapaSite = {
   projetos: [
     { slug: "intermed", href: "/pt/projetos/intermed", titulo: "INTERMED", resumo: "Sistema web de internato." },
     { slug: "ia-generativa", href: "/pt/projetos/ia-generativa", titulo: "NADIA", resumo: "Modelo treinado do zero." },
+    { slug: "monitoramento-tea", href: "/pt/projetos/monitoramento-tea", titulo: "Monitoramento de TEA", resumo: "Pesquisa." },
   ],
   contatos: [{ rotulo: "E-mail", href: "mailto:jvdasilva25@gmail.com", usuario: "jvdasilva25@gmail.com" }],
+  artigos: [{ titulo: "Dispositivo para TEA", resumo: "Um vestível com IA.", href: "https://doi.org/x", projeto: "monitoramento-tea" }],
   curriculo: { href: "/curriculo.pdf", rotulo: "Baixar currículo" },
   sobre: "Sou o João Victor.",
 };
@@ -35,8 +37,14 @@ test("responde sobre o site sem navegar quando é pergunta", () => {
   assert.ok(projetos?.links.some((l) => l.href === "/pt/projetos/intermed"));
   assert.match(r("O que é o INTERMED?")?.texto ?? "", /internato/);
   assert.ok(r("Como falar com o João?")?.links.some((l) => l.href.startsWith("mailto:")));
+  assert.match(r("Manda um email pro João dizendo oi")?.texto ?? "", /não envio/);
   assert.equal(r("Tem currículo?")?.links[0].href, "/curriculo.pdf");
   assert.match(r("oi nadia")?.texto ?? "", /Sou a NADIA/);
+  // "resume" em português é resumir, não currículo
+  const artigo = r("Resume pra mim o artigo sobre TEA");
+  assert.match(artigo?.texto ?? "", /vestível/);
+  assert.equal(artigo?.links[0].href, "https://doi.org/x");
+  assert.equal(responderSobreOSite("Download the resume", "en", mapa)?.links[0].href, "/curriculo.pdf");
 });
 
 test("o resto vai para o modelo", () => {

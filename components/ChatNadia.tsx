@@ -5,7 +5,9 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import type { Idioma } from "@/lib/idioma";
 import { ehCaminhoInterno, responderSobreOSite, textosNadia, type LinkNadia, type MapaSite } from "@/lib/nadia";
-import { calcular, pesquisarWikipedia } from "@/lib/nadia-ferramentas";
+import { calcular, dataHora, pesquisarWikipedia } from "@/lib/nadia-ferramentas";
+import { NAO_SEI } from "@/lib/nadia-geracao";
+import { AVISO_INGLES, pareceIngles, verificarLimites } from "@/lib/nadia-limites";
 import { carregarModelo, modeloJaBaixado, perguntarAoModelo } from "@/lib/nadia-navegador";
 import Icone from "./Icone";
 
@@ -36,6 +38,7 @@ const TEXTOS = {
     enviar: "Enviar",
     pensando: "Pensando…",
     sugestoes: ["Me mostra os projetos", "Como falar com o João?", "O que é a NADIA?", "Qual é a capital do Japão?"],
+    naoSei: "Não sei responder isso com segurança, então prefiro não chutar. Eu me saio bem com perguntas curtas de conhecimento geral, contas, definições e tudo sobre o site e os projetos do João.",
     oferta: "Para responder isso, eu rodo o meu modelo de linguagem aqui no seu navegador. São 140 MB, baixados uma vez só; depois ele fica guardado e nenhuma pergunta sai do seu computador.",
     baixar: "Baixar e responder",
     baixando: (p: number | null) => (p == null ? "Preparando o modelo…" : `Baixando o modelo… ${Math.round(p * 100)}%`),
@@ -54,6 +57,7 @@ const TEXTOS = {
     enviar: "Send",
     pensando: "Thinking…",
     sugestoes: ["Show me the projects", "How can I contact João?", "What is NADIA?", "Qual é a capital do Japão?"],
+    naoSei: "I can't answer that with confidence, so I'd rather not guess. I do well with short general-knowledge questions in Portuguese, math, definitions and anything about this site and João's projects.",
     oferta: "To answer that, I run my language model right here in your browser (it only speaks Portuguese). It's 140 MB, downloaded once; after that it stays cached and no question leaves your computer.",
     baixar: "Download and answer",
     baixando: (p: number | null) => (p == null ? "Preparing the model…" : `Downloading the model… ${Math.round(p * 100)}%`),
@@ -114,7 +118,7 @@ export default function ChatNadia({ lang, mapa }: { lang: Idioma; mapa: MapaSite
     try {
       const r = await perguntarAoModelo(historico.current.slice(-2), pergunta);
       historico.current.push(["user", pergunta], ["assistant", r.texto]);
-      adicionar({ autor: "nadia", texto: r.texto, confianca: r.confianca, limiar: r.limiar });
+      adicionar({ autor: "nadia", texto: r.texto.replace(NAO_SEI, t.naoSei), confianca: r.confianca, limiar: r.limiar });
     } catch {
       adicionar({ autor: "nadia", texto: t.erro });
     } finally {
@@ -150,8 +154,13 @@ export default function ChatNadia({ lang, mapa }: { lang: Idioma; mapa: MapaSite
       if (site.ir && ehCaminhoInterno(site.ir)) router.push(site.ir);
       return;
     }
-    const conta = calcular(pergunta, lang);
+    const conta = calcular(pergunta, lang) ?? dataHora(pergunta, lang);
     if (conta) return adicionar({ autor: "nadia", texto: conta.texto, ferramenta: conta.ferramenta });
+
+    // O que ela não faz é dito na hora, em vez de virar uma resposta inventada pelo modelo
+    const limite = verificarLimites(pergunta, lang, !MODELO && Boolean(API));
+    if (limite) return adicionar({ autor: "nadia", texto: limite });
+    if (pareceIngles(pergunta)) return adicionar({ autor: "nadia", texto: AVISO_INGLES[lang] });
 
     setEsperando(true);
     const wiki = await pesquisarWikipedia(pergunta);
@@ -183,7 +192,7 @@ export default function ChatNadia({ lang, mapa }: { lang: Idioma; mapa: MapaSite
         ...m,
         {
           autor: "nadia",
-          texto: dados.reply,
+          texto: String(dados.reply).replace(NAO_SEI, t.naoSei),
           fontes: (dados.sources ?? []).filter((u: string) => /^https?:\/\//.test(u)),
           ferramenta: dados.tool,
           confianca: dados.tool ? null : dados.confianca,

@@ -72,6 +72,21 @@ export function calcular(mensagem: string, lang: "pt" | "en"): RespostaFerrament
   return { texto: `${tokens.join(" ").replace(/r /g, "√").replace(/\( /g, "(").replace(/ \)/g, ")")} = ${formatado}`, ferramenta };
 }
 
+// ---------------------------------------------------------------- data e hora
+// Sem isto, "que horas são?" ia para o modelo, que inventava um horário
+export function dataHora(mensagem: string, lang: "pt" | "en", agora = new Date()): RespostaFerramenta | null {
+  const t = normalizar(mensagem);
+  const local = lang === "pt" ? "pt-BR" : "en-US";
+  const ferramenta = lang === "pt" ? "📅 Data e hora" : "📅 Date and time";
+  if (/\b(?:que horas sao|que hora e|horas agora|what time is it|current time)\b/.test(t))
+    return { texto: agora.toLocaleTimeString(local, { hour: "2-digit", minute: "2-digit" }), ferramenta };
+  if (/\b(?:que dia e hoje|hoje e que dia|qual (?:e )?a data(?: de hoje)?|data de hoje|dia da semana hoje|what day is (?:it|today)|today s date|what s the date)\b/.test(t)) {
+    const data = agora.toLocaleDateString(local, { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+    return { texto: data.charAt(0).toUpperCase() + data.slice(1), ferramenta };
+  }
+  return null;
+}
+
 // ------------------------------------------------------------------- Wikipédia
 const PERGUNTA = /^(?:quem (?:e|foi|era|eram|sao|foram)|o que (?:e|sao|foi|foram|significa)|me fale sobre|fale sobre)\s+(?:o |a |os |as |um |uma )?(.+)$/;
 // Perguntas sobre a própria NADIA ficam com ela, nunca com a Wikipédia

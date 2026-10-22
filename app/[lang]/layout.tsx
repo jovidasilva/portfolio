@@ -5,6 +5,7 @@ import ChatNadia from "@/components/ChatNadia";
 import Header, { paginas } from "@/components/Header";
 import Rodape from "@/components/Rodape";
 import { ehIdioma, idiomas } from "@/lib/idioma";
+import { publicacoes } from "@/content/publicacoes";
 import { getProjetos } from "@/lib/conteudo";
 import type { MapaSite } from "@/lib/nadia";
 import { contatos, textos } from "@/lib/textos";
@@ -38,6 +39,7 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
     paginas: paginas.map((secao) => ({ secao, href: `/${lang}/${secao}`, rotulo: t.nav[secao], descricao: t.paginas[secao] })),
     projetos: (await getProjetos(lang)).map((p) => ({ slug: p.slug, href: `/${lang}/projetos/${p.slug}`, titulo: p.titulo, resumo: p.resumo })),
     contatos: contatos.map(({ rotulo, href, usuario }) => ({ rotulo, href, usuario })),
+    artigos: publicacoes.map((a) => ({ titulo: a.titulo, resumo: a.resumo[lang], href: a.link, projeto: a.projeto })),
     curriculo: t.curriculo,
     sobre: t.sobre.texto,
   };
