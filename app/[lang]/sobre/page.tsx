@@ -15,7 +15,7 @@ export default async function SobrePage({ params }: PageProps<"/[lang]/sobre">) 
     <>
       <CabecalhoPagina voltar={{ href: `/${lang}`, rotulo: t.voltarInicio }} pagina="sobre" titulo={t.sobre.titulo} intro={t.paginas.sobre} />
       <div className="tracejado">
-        <div className="mx-auto grid max-w-6xl gap-12 px-5 py-16 sm:px-8 lg:grid-cols-[1.5fr_1fr]">
+        <div className="mx-auto grid max-w-6xl gap-12 px-5 py-12 sm:px-8 sm:py-16 lg:grid-cols-[1.5fr_1fr]">
           <div className="max-w-[62ch] space-y-6 text-lg leading-relaxed">
             {t.sobre.paragrafos.map((paragrafo) => (
               <p key={paragrafo}>{paragrafo}</p>

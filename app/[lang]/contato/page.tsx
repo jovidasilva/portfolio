@@ -19,7 +19,7 @@ export default async function ContatoPage({ params }: PageProps<"/[lang]/contato
     <>
       <CabecalhoPagina voltar={{ href: `/${lang}`, rotulo: textos[lang].voltarInicio }} pagina="contato" titulo={t.contato.chamada} intro={t.contato.texto} />
       <div className="tracejado">
-        <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8">
+        <div className="mx-auto max-w-6xl px-5 py-12 sm:px-8 sm:py-16">
           <a href="mailto:jvdasilva25@gmail.com" className="inline-flex items-center gap-3 sm:gap-4">
             <span className="grid size-10 shrink-0 place-items-center rounded-full degrade text-white sm:size-14">
               <Icone nome="email" className="size-6" />

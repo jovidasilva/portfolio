@@ -5,10 +5,18 @@ import { useLayoutEffect, useSyncExternalStore } from "react";
 type Tema = "claro" | "escuro";
 const escuroDoSistema = "(prefers-color-scheme: dark)";
 
+// A barra do navegador no celular acompanha o tema escolhido (mesmas cores de --fundo em globals.css)
+function pintarBarra(tema: Tema) {
+  document.querySelectorAll('meta[name="theme-color"]').forEach((meta) => meta.setAttribute("content", tema === "escuro" ? "#000000" : "#fafafb"));
+}
+
 function aplicarSalvo() {
   try {
     const salvo = localStorage.getItem("tema");
-    if (salvo === "claro" || salvo === "escuro") document.documentElement.dataset.tema = salvo;
+    if (salvo === "claro" || salvo === "escuro") {
+      document.documentElement.dataset.tema = salvo;
+      pintarBarra(salvo);
+    }
   } catch {}
 }
 
@@ -41,6 +49,7 @@ export default function TrocarTema({ rotulos }: { rotulos: { claro: string; escu
   function trocar() {
     const novo: Tema = lerTema() === "escuro" ? "claro" : "escuro";
     document.documentElement.dataset.tema = novo;
+    pintarBarra(novo);
     try {
       localStorage.setItem("tema", novo);
     } catch {}
@@ -55,7 +64,7 @@ export default function TrocarTema({ rotulos }: { rotulos: { claro: string; escu
       onClick={trocar}
       aria-label={rotulo}
       title={rotulo}
-      className="grid size-9 place-items-center rounded-full border border-borda text-suave hover:border-roxo hover:text-texto"
+      className="grid size-10 place-items-center rounded-full border border-borda text-suave hover:border-roxo hover:text-texto"
     >
       {tema === "escuro" ? (
         <svg aria-hidden viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">

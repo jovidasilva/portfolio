@@ -1,4 +1,4 @@
-// Cubos isométricos em wireframe com "pixels" soltos, traçados em degradê roxo → azul
+// Cubos isométricos em wireframe, traçados em degradê roxo → azul
 const s = 46; // aresta do cubo
 const cx = 200; // origem do desenho
 const cy = 230;
@@ -17,9 +17,6 @@ function cubo(x: number, y: number, z: number) {
 const cubos: [number, number, number][] = [
   [0, 0, 0], [1, 0, 0], [0, 1, 0], [0, 0, 1], [1.6, -1.4, 1.6], [-1.2, 1.8, 0.8], [2.2, 1.2, 0],
 ];
-const pixels: [number, number, number][] = [
-  [3, -1, 2.6], [2.6, 0.4, 2.2], [-0.6, -1.2, 2.4], [3.4, 1.6, 1], [-2, 0.6, 2], [1.4, 2.8, 0.4], [-1.6, -0.4, 0.2], [2.8, -2, 0.6], [0.4, -2.2, 1.6],
-];
 
 export default function Cubos() {
   return (
@@ -33,10 +30,6 @@ export default function Cubos() {
       {cubos.map(([x, y, z], i) => (
         <path key={i} d={cubo(x, y, z)} fill="none" stroke="url(#traco)" strokeWidth="1.5" strokeLinecap="round" />
       ))}
-      {pixels.map(([x, y, z], i) => {
-        const [px, py] = ponto(x, y, z);
-        return <rect key={i} x={px - 4} y={py - 4} width={8} height={8} fill={i % 2 ? "var(--azul)" : "var(--roxo)"} opacity={0.85} />;
-      })}
     </svg>
   );
 }

@@ -90,6 +90,7 @@ export default function ChatNadia({ lang, mapa }: { lang: Idioma; mapa: MapaSite
   const lista = useRef<HTMLDivElement>(null);
   const campo = useRef<HTMLInputElement>(null);
   const botao = useRef<HTMLButtonElement>(null);
+  const botaoFechar = useRef<HTMLButtonElement>(null);
 
   // Outros componentes abrem o chat com window.dispatchEvent(new Event("nadia:abrir"))
   useEffect(() => {
@@ -98,8 +99,9 @@ export default function ChatNadia({ lang, mapa }: { lang: Idioma; mapa: MapaSite
     return () => window.removeEventListener("nadia:abrir", abrir);
   }, []);
 
+  // No celular, focar o campo abriria o teclado por cima das sugestões; lá o foco vai para o botão de fechar
   useEffect(() => {
-    if (aberto) campo.current?.focus();
+    if (aberto) (matchMedia("(pointer: fine)").matches ? campo.current : botaoFechar.current)?.focus();
   }, [aberto]);
 
   useEffect(() => {
@@ -108,7 +110,7 @@ export default function ChatNadia({ lang, mapa }: { lang: Idioma; mapa: MapaSite
 
   function fechar() {
     setAberto(false);
-    botao.current?.focus();
+    requestAnimationFrame(() => botao.current?.focus()); // no celular o botão só reaparece depois de fechar
   }
 
   const adicionar = (m: Mensagem) => setMensagens((lista) => [...lista, m]);
@@ -215,7 +217,7 @@ export default function ChatNadia({ lang, mapa }: { lang: Idioma; mapa: MapaSite
           id="chat-nadia"
           aria-label="NADIA"
           onKeyDown={(e) => e.key === "Escape" && fechar()}
-          className="fixed inset-x-3 bottom-20 z-50 flex h-[min(34rem,calc(100dvh-7rem))] flex-col overflow-hidden rounded-2xl border border-borda bg-superficie shadow-2xl sm:inset-x-auto sm:right-5 sm:w-96"
+          className="fixed inset-0 z-50 flex flex-col overflow-hidden bg-superficie sm:inset-auto sm:bottom-20 sm:right-5 sm:h-[min(34rem,calc(100dvh-7rem))] sm:w-96 sm:rounded-2xl sm:border sm:border-borda sm:shadow-2xl"
         >
           <header className="flex items-center gap-3 border-b border-borda px-4 py-3">
             <span className="degrade grid size-9 shrink-0 place-items-center rounded-full font-pixel text-sm text-white">N</span>
@@ -223,12 +225,12 @@ export default function ChatNadia({ lang, mapa }: { lang: Idioma; mapa: MapaSite
               <p className="font-pixel text-lg leading-none">NADIA</p>
               <p className="truncate text-xs text-suave">{t.subtitulo}</p>
             </div>
-            <button type="button" onClick={fechar} aria-label={t.fechar} className="grid size-8 place-items-center rounded-full text-suave hover:text-texto">
+            <button ref={botaoFechar} type="button" onClick={fechar} aria-label={t.fechar} className="grid size-10 place-items-center rounded-full text-suave hover:text-texto">
               <Icone nome="fechar" className="size-4" />
             </button>
           </header>
 
-          <div ref={lista} aria-live="polite" className="flex-1 space-y-3 overflow-y-auto px-4 py-4 text-sm">
+          <div ref={lista} aria-live="polite" className="flex-1 space-y-3 overflow-y-auto overscroll-contain px-4 py-4 text-sm">
             {mensagens.map((m, i) => (
               <div key={i} className={m.autor === "eu" ? "flex justify-end" : "flex"}>
                 <div
@@ -260,11 +262,11 @@ export default function ChatNadia({ lang, mapa }: { lang: Idioma; mapa: MapaSite
                       {m.links.map((link) =>
                         <li key={link.href}>
                           {ehCaminhoInterno(link.href) && !link.href.endsWith(".pdf") ? (
-                            <Link href={link.href} className="inline-block rounded-full border border-borda px-2.5 py-1 text-xs hover:border-roxo">
+                            <Link href={link.href} className="inline-block rounded-full border border-borda px-3 py-1.5 text-xs hover:border-roxo sm:px-2.5 sm:py-1">
                               {link.rotulo}
                             </Link>
                           ) : (
-                            <a href={link.href} target="_blank" rel="noopener noreferrer" className="inline-block rounded-full border border-borda px-2.5 py-1 text-xs hover:border-roxo">
+                            <a href={link.href} target="_blank" rel="noopener noreferrer" className="inline-block rounded-full border border-borda px-3 py-1.5 text-xs hover:border-roxo sm:px-2.5 sm:py-1">
                               {link.rotulo}
                             </a>
                           )}
@@ -292,7 +294,7 @@ export default function ChatNadia({ lang, mapa }: { lang: Idioma; mapa: MapaSite
             {mensagens.length === 1 && (
               <div className="flex flex-wrap gap-1.5 pt-1">
                 {t.sugestoes.map((s) => (
-                  <button key={s} type="button" onClick={() => enviar(s)} className="rounded-full border border-borda px-2.5 py-1 text-xs text-suave hover:border-roxo hover:text-texto">
+                  <button key={s} type="button" onClick={() => enviar(s)} className="rounded-full border border-borda px-3 py-2 text-xs text-suave hover:border-roxo hover:text-texto sm:px-2.5 sm:py-1">
                     {s}
                   </button>
                 ))}
@@ -314,9 +316,9 @@ export default function ChatNadia({ lang, mapa }: { lang: Idioma; mapa: MapaSite
               placeholder={t.placeholder}
               maxLength={2000}
               aria-label={t.placeholder}
-              className="min-w-0 flex-1 rounded-full border border-borda bg-fundo px-4 py-2 text-sm outline-none focus:border-roxo"
+              className="min-w-0 flex-1 rounded-full border border-borda bg-fundo px-4 py-2 text-base outline-none focus:border-roxo sm:text-sm"
             />
-            <button type="submit" disabled={esperando || !texto.trim()} aria-label={t.enviar} className="degrade grid size-9 shrink-0 place-items-center rounded-full text-white disabled:opacity-40">
+            <button type="submit" disabled={esperando || !texto.trim()} aria-label={t.enviar} className="degrade grid size-10 shrink-0 place-items-center rounded-full text-white disabled:opacity-40">
               <Icone nome="enviar" className="size-4" />
             </button>
           </form>
@@ -331,7 +333,7 @@ export default function ChatNadia({ lang, mapa }: { lang: Idioma; mapa: MapaSite
         title={aberto ? t.fechar : t.abrir}
         aria-expanded={aberto}
         aria-controls="chat-nadia"
-        className="degrade fixed bottom-5 right-5 z-50 grid size-13 place-items-center rounded-full text-white shadow-lg transition-transform hover:scale-105"
+        className={`degrade fixed bottom-5 right-5 z-50 grid size-13 place-items-center rounded-full text-white shadow-lg transition-transform hover:scale-105 ${aberto ? "max-sm:hidden" : ""}`}
       >
         <Icone nome={aberto ? "fechar" : "chat"} className="size-6" />
       </button>

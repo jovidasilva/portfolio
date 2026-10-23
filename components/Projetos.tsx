@@ -28,7 +28,7 @@ export default function Projetos({ projetos, lang, rotulos, areas }: Props) {
             type="button"
             onClick={() => setArea(opcao)}
             aria-pressed={area === opcao}
-            className="rounded-full border border-borda px-4 py-1.5 text-sm text-suave hover:text-texto aria-pressed:border-transparent aria-pressed:degrade aria-pressed:text-white"
+            className="rounded-full border border-borda px-4 py-2 text-sm text-suave hover:text-texto aria-pressed:border-transparent aria-pressed:degrade aria-pressed:text-white"
           >
             {opcao ? areas[opcao] : rotulos.todos}
           </button>

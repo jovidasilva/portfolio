@@ -12,7 +12,7 @@ export default async function ExperienciasPage({ params }: PageProps<"/[lang]/ex
     <>
       <CabecalhoPagina voltar={{ href: `/${lang}`, rotulo: textos[lang].voltarInicio }} pagina="experiencias" titulo={t.titulo} intro={textos[lang].paginas.experiencias} />
       <div className="tracejado">
-        <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8">
+        <div className="mx-auto max-w-6xl px-5 py-12 sm:px-8 sm:py-16">
           <ol className="border-l border-dashed border-borda">
             {t.itens.map((item) => (
               <li key={item.titulo} className="relative grid gap-x-10 gap-y-2 pb-14 pl-8 last:pb-0 lg:grid-cols-[20rem_1fr]">

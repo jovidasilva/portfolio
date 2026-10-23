@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // ONNX Runtime copiado de node_modules por scripts/copiar-ort.mjs (minificado, fora do git)
+    "public/nadia/ort/**",
   ]),
 ]);
 

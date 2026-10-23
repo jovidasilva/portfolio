@@ -15,7 +15,7 @@ export default async function ArtigosPage({ params }: PageProps<"/[lang]/artigos
     <>
       <CabecalhoPagina voltar={{ href: `/${lang}`, rotulo: textos[lang].voltarInicio }} pagina="artigos" titulo={t.artigos.titulo} intro={t.paginas.artigos} cor="azul" />
       <div className="tracejado">
-        <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8">
+        <div className="mx-auto max-w-6xl px-5 py-12 sm:px-8 sm:py-16">
           <ul className="grid gap-5">
             {publicacoes.map((publicacao) => (
               <li key={publicacao.link} className="cartao p-6">
@@ -32,11 +32,11 @@ export default async function ArtigosPage({ params }: PageProps<"/[lang]/artigos
                   {publicacao.autores.split(/(João Victor da Silva Alves)/).map((parte, i) => (i % 2 ? <strong key={i} className="font-semibold text-texto">{parte}</strong> : parte))}
                 </p>
                 <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-sm">
-                  <a href={publicacao.link} className="flex items-center gap-2 text-roxo hover:underline">
+                  <a href={publicacao.link} className="-my-2 flex items-center gap-2 py-2 text-roxo hover:underline">
                     {t.artigos.ler} <Seta />
                   </a>
                   {publicacao.projeto && (
-                    <Link href={`/${lang}/projetos/${publicacao.projeto}`} className="text-roxo hover:underline">
+                    <Link href={`/${lang}/projetos/${publicacao.projeto}`} className="-my-2 py-2 text-roxo hover:underline">
                       {t.artigos.verProjeto}
                     </Link>
                   )}

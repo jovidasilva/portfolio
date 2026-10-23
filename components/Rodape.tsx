@@ -7,7 +7,7 @@ export default function Rodape({ lang }: { lang: Idioma }) {
 
   return (
     <footer className="tracejado">
-      <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-6 gap-y-4 px-5 py-8 text-sm text-suave sm:px-8">
+      <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-6 gap-y-4 px-5 pb-24 pt-8 text-sm text-suave sm:px-8 sm:pb-8">
         <p className="mr-auto">
           {t.contato.rodape}{" "}
           <a href="https://github.com/jovidasilva/portfolio" className="underline underline-offset-4 hover:text-texto">
@@ -21,7 +21,7 @@ export default function Rodape({ lang }: { lang: Idioma }) {
                 href={contato.href}
                 aria-label={contato.rotulo}
                 title={contato.rotulo}
-                className="grid size-9 place-items-center rounded-full border border-borda hover:border-roxo hover:text-texto"
+                className="grid size-11 place-items-center rounded-full border border-borda hover:border-roxo hover:text-texto sm:size-9"
               >
                 <Icone nome={contato.icone} className="size-4" />
               </a>

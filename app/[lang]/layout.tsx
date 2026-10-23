@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import { Silkscreen, Sora } from "next/font/google";
 import ChatNadia from "@/components/ChatNadia";
@@ -11,6 +11,15 @@ import "../globals.css";
 
 const sora = Sora({ variable: "--font-sora", subsets: ["latin"] });
 const silkscreen = Silkscreen({ variable: "--font-silkscreen", subsets: ["latin"], weight: ["400", "700"] });
+
+// Barra do navegador do celular na cor do fundo (mesmas cores de --fundo em globals.css), e o teclado do Android encolhe a página em vez de cobrir o chat
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#fafafb" },
+    { media: "(prefers-color-scheme: dark)", color: "#000000" },
+  ],
+  interactiveWidget: "resizes-content",
+};
 
 export function generateStaticParams() {
   return idiomas.map((lang) => ({ lang }));

@@ -6,7 +6,7 @@ import PixelIcone, { type Pagina } from "./PixelIcone";
 export default function Resumo({ pagina, titulo, href, link, children }: { pagina: Pagina; titulo: string; href: string; link: string; children: ReactNode }) {
   return (
     <section aria-labelledby={`resumo-${pagina}`} className="tracejado">
-      <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8">
+      <div className="mx-auto max-w-6xl px-5 py-12 sm:px-8 sm:py-16">
         <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-4">
           <Link href={href} className="group flex items-center gap-4">
             <PixelIcone nome={pagina} className="h-9 w-auto" />
@@ -14,14 +14,14 @@ export default function Resumo({ pagina, titulo, href, link, children }: { pagin
               {titulo}
             </h2>
           </Link>
-          <Link href={href} className="group inline-flex items-center gap-1.5 text-sm text-roxo">
+          <Link href={href} className="group -my-2 inline-flex items-center gap-1.5 py-2 text-sm text-roxo">
             <span className="group-hover:underline">{link}</span>
             <svg aria-hidden viewBox="0 0 16 16" className="size-3.5 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" strokeWidth="1.8">
               <path d="m6 3 5 5-5 5" />
             </svg>
           </Link>
         </div>
-        <div className="mt-10">{children}</div>
+        <div className="mt-8 sm:mt-10">{children}</div>
       </div>
     </section>
   );

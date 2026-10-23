@@ -1,7 +1,8 @@
+import fs from "node:fs";
+import path from "node:path";
 import Image from "next/image";
 import Link from "next/link";
 import CardProjeto from "@/components/CardProjeto";
-import Cubos from "@/components/Cubos";
 import Resumo from "@/components/Resumo";
 import Seta from "@/components/Seta";
 import { certificados } from "@/content/certificados";
@@ -18,11 +19,13 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
   const ultimosCertificados = [...certificados].sort((a, b) => b.data.localeCompare(a.data)).slice(0, 3);
   const icones = grupos.flatMap(([, itens]) => itens);
   const href = (pagina: string) => `/${lang}/${pagina}`;
+  // A foto do topo entra sozinha quando existir public/foto.jpg; até lá, o quadro fica vazio (e escondido no celular)
+  const temFoto = fs.existsSync(path.join(process.cwd(), "public", "foto.jpg"));
 
   return (
     <>
       <section aria-labelledby="manchete" className="brilho">
-        <div className="mx-auto grid max-w-6xl items-center gap-12 px-5 py-16 sm:px-8 sm:py-24 lg:grid-cols-[1.3fr_1fr]">
+        <div className="mx-auto grid max-w-6xl items-center gap-12 px-5 py-12 sm:px-8 sm:py-24 lg:grid-cols-[1.3fr_1fr]">
           <div>
             <p className="text-suave">{t.titulo}</p>
             <h1 id="manchete" className="mt-5 break-words font-pixel text-[clamp(2rem,10vw,3rem)] leading-[1.05] sm:text-6xl md:text-7xl">
@@ -40,8 +43,10 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
               </a>
             </div>
           </div>
-          <div className="hidden justify-center lg:flex">
-            <Cubos />
+          <div className={`${temFoto ? "flex" : "hidden lg:flex"} justify-center`}>
+            <div className="relative aspect-[4/5] w-full max-w-sm overflow-hidden rounded-[1.25rem] border border-borda bg-black">
+              {temFoto && <Image src="/foto.jpg" alt={t.titulo} fill loading="eager" sizes="(min-width: 1024px) 24rem, 90vw" className="object-cover" />}
+            </div>
           </div>
         </div>
       </section>

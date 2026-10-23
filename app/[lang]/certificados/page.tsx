@@ -18,7 +18,7 @@ export default async function CertificadosPage({ params }: PageProps<"/[lang]/ce
     <>
       <CabecalhoPagina voltar={{ href: `/${lang}`, rotulo: textos[lang].voltarInicio }} pagina="certificados" titulo={t.nav.certificados} intro={t.paginas.certificados} />
       <div className="tracejado">
-        <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8">
+        <div className="mx-auto max-w-6xl px-5 py-12 sm:px-8 sm:py-16">
           {lista.length === 0 ? (
             <p className="cartao max-w-2xl p-8 text-lg text-suave">
               {t.certificados.vazio}{" "}

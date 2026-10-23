@@ -20,6 +20,7 @@ const pt = {
   nav: { inicio: "Portfólio", sobre: "Sobre mim", conhecimento: "Conhecimento", experiencias: "Experiências", projetos: "Projetos", certificados: "Certificados", artigos: "Artigos", contato: "Contato" },
   trocarIdioma: "Idioma do site",
   tema: { claro: "Usar tema claro", escuro: "Usar tema escuro" },
+  menu: { abrir: "Abrir menu", fechar: "Fechar menu" },
   voltarInicio: "Início",
   sobre: {
     titulo: "Sobre mim",
@@ -175,6 +176,7 @@ const en: Textos = {
   nav: { inicio: "Portfolio", sobre: "About me", conhecimento: "Skills", experiencias: "Experience", projetos: "Projects", certificados: "Certificates", artigos: "Articles", contato: "Contact" },
   trocarIdioma: "Site language",
   tema: { claro: "Use light theme", escuro: "Use dark theme" },
+  menu: { abrir: "Open menu", fechar: "Close menu" },
   voltarInicio: "Home",
   sobre: {
     titulo: "About me",
