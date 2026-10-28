@@ -57,7 +57,7 @@ const APELIDOS: Record<string, string[]> = {
   steadyhand: ["luva", "parkinson", "glove"],
   "monitoramento-tea": ["tea", "autismo", "autism", "vestivel", "wearable"],
   slimegame: ["slime", "metroidvania", "godot"],
-  oxyrcuits: ["circuitos?", "circuits?", "simulador", "protoboard"],
+  protobench: ["circuitos?", "circuits?", "simulador", "protoboard"],
   intermed: ["internato", "medicina"],
   "analise-ecg": ["ecg", "eletrocardiograma", "arritmias?", "ecg analysis"],
 };
