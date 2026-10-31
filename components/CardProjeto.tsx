@@ -4,7 +4,7 @@ import type { Area, Projeto } from "@/lib/conteudo";
 
 export default function CardProjeto({ projeto, lang, areas, detalhes }: { projeto: Projeto; lang: string; areas: Record<Area, string>; detalhes: string }) {
   return (
-    <li className="cartao group relative flex flex-col p-6 hover:border-roxo">
+    <li className="cartao surgir group relative flex flex-col p-6 hover:border-roxo">
       <div className="flex h-10 items-center gap-2">
         {projeto.icones?.length
           ? projeto.icones.map((icone) => <Image key={icone} src={`/skills/${icone}.svg`} alt="" width={36} height={36} />)

@@ -127,6 +127,7 @@ const pt = {
     privado: "Código privado",
     detalhes: "Detalhes",
     verProjetos: "Ver projetos",
+    aoVivo: "Ver ao vivo",
   },
   areas: { Web: "Web", IA: "IA", Hardware: "Hardware", Jogos: "Jogos", Dados: "Dados" },
   paginas: {
@@ -283,6 +284,7 @@ const en: Textos = {
     privado: "Private code",
     detalhes: "Details",
     verProjetos: "See projects",
+    aoVivo: "See it live",
   },
   areas: { Web: "Web", IA: "AI", Hardware: "Hardware", Jogos: "Games", Dados: "Data" },
   paginas: {

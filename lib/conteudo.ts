@@ -14,6 +14,7 @@ export type Projeto = {
   icones?: string[]; // nomes dos arquivos em public/skills
   data: string; // AAAA-MM-DD
   repo?: string; // nome do repositório em github.com/jovidasilva
+  link?: string; // página do projeto funcionando, quando houver
   destaque?: boolean;
 };
 

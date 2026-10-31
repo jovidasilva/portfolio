@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import Icone from "./Icone";
 
-type Pagina = { href: string; rotulo: string };
+type Pagina = { href: string; rotulo: string; destaque?: boolean };
 
 // Menu em linha a partir de xl; abaixo disso, um botão abre a lista com alvos de toque grandes
 export default function NavLinks({ links, rotulos }: { links: Pagina[]; rotulos: { abrir: string; fechar: string } }) {
@@ -38,7 +38,7 @@ export default function NavLinks({ links, rotulos }: { links: Pagina[]; rotulos:
       href={link.href}
       aria-current={pathname.startsWith(link.href) ? "page" : undefined}
       onClick={() => setAbertoEm(null)}
-      className={`text-suave hover:text-texto aria-[current=page]:bg-roxo/15 aria-[current=page]:text-texto ${classe}`}
+      className={`${link.destaque ? "font-semibold text-roxo" : "text-suave"} hover:text-texto aria-[current=page]:bg-roxo/15 aria-[current=page]:text-texto ${classe}`}
     >
       {link.rotulo}
     </Link>
@@ -46,7 +46,7 @@ export default function NavLinks({ links, rotulos }: { links: Pagina[]; rotulos:
 
   return (
     <>
-      <nav className="hidden gap-x-1 text-sm xl:flex">{links.map((link) => item(link, "rounded-full px-3 py-1.5"))}</nav>
+      <nav className="hidden text-sm xl:flex">{links.map((link) => item(link, "rounded-full px-2.5 py-1.5"))}</nav>
       <button
         ref={botao}
         type="button"

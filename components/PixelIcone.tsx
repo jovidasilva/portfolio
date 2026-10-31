@@ -15,7 +15,7 @@ export default function PixelIcone({ nome, className = "size-12" }: { nome: Pagi
   const linhas = desenhos[nome];
   const largura = Math.max(...linhas.map((linha) => linha.length));
   return (
-    <svg aria-hidden viewBox={`0 0 ${largura} ${linhas.length}`} className={className} shapeRendering="crispEdges">
+    <svg aria-hidden viewBox={`0 0 ${largura} ${linhas.length}`} className={`pixel-desenha ${className}`} shapeRendering="crispEdges">
       <defs>
         <linearGradient id={`pixel-${nome}`} x1="0" y1="0" x2="1" y2="1">
           <stop offset="0" stopColor="var(--roxo)" />
@@ -23,7 +23,10 @@ export default function PixelIcone({ nome, className = "size-12" }: { nome: Pagi
         </linearGradient>
       </defs>
       {linhas.flatMap((linha, y) =>
-        [...linha].map((celula, x) => (celula === "X" ? <rect key={`${x}-${y}`} x={x} y={y} width={1} height={1} fill={`url(#pixel-${nome})`} /> : null)),
+        [...linha].map((celula, x) =>
+          // --i: ordem de leitura do quadrado, usada para acender um depois do outro
+          celula === "X" ? <rect key={`${x}-${y}`} x={x} y={y} width={1} height={1} fill={`url(#pixel-${nome})`} style={{ "--i": y * largura + x } as React.CSSProperties} /> : null,
+        ),
       )}
     </svg>
   );

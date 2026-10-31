@@ -43,6 +43,11 @@ export default async function ProjetoPage({ params }: PageProps<"/[lang]/projeto
           <h1 className="mt-3 break-words font-pixel text-[clamp(1.75rem,9vw,3rem)] leading-[1.05] sm:text-6xl md:text-7xl">{metadata.titulo}</h1>
           <p className="mt-6 max-w-[60ch] text-lg leading-relaxed">{metadata.resumo}</p>
           <div className="mt-8 flex flex-wrap items-center gap-3">
+            {metadata.link && (
+              <a href={metadata.link.replace("{lang}", lang)} className="inline-flex items-center gap-2 rounded-lg degrade px-5 py-3 text-sm font-semibold text-white hover:opacity-90">
+                {t.projetos.aoVivo} <Seta />
+              </a>
+            )}
             {metadata.repo ? (
               <a href={`https://github.com/jovidasilva/${metadata.repo}`} className="inline-flex items-center gap-2 rounded-lg bg-texto px-5 py-3 text-sm font-semibold text-fundo hover:opacity-90">
                 {t.projetos.acessar} <Seta />

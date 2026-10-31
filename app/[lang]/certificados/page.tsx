@@ -29,7 +29,7 @@ export default async function CertificadosPage({ params }: PageProps<"/[lang]/ce
           ) : (
             <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {lista.map((certificado) => (
-                <li key={certificado.arquivo} className="cartao flex flex-col overflow-hidden">
+                <li key={certificado.arquivo} className="cartao surgir flex flex-col overflow-hidden">
                   {ehImagem(certificado.arquivo) && (
                     // eslint-disable-next-line @next/next/no-img-element -- imagens variadas em public, sem tamanho fixo
                     <img src={certificado.arquivo} alt="" className="aspect-[4/3] w-full border-b border-borda object-cover" />
